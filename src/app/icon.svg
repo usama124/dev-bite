@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="DevBite">
+  <defs>
+    <linearGradient id="devbite-gradient" x1="8" y1="56" x2="56" y2="8" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4f46e5" />
+      <stop offset="1" stop-color="#06b6d4" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="17" fill="url(#devbite-gradient)" />
+  <path
+    fill="#ffffff"
+    d="M19 14h13.2C43.2 14 51 21.2 51 32s-7.8 18-18.8 18H19V14Zm12.6 27.3c6.5 0 10.3-3.4 10.3-9.3s-3.8-9.3-10.3-9.3h-3.7v18.6h3.7Z"
+  />
+</svg>

@@ -20,7 +20,7 @@ The current verified baseline is:
 
 - 39 automated tests passing
 - Zero TypeScript errors
-- 59 static pages generated successfully
+- 60 static pages and metadata routes generated successfully
 - Responsive light and dark themes
 - SEO metadata, canonical URLs, sitemap, and robots.txt
 
