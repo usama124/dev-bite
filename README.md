@@ -21,7 +21,7 @@ The current verified baseline is:
 - 63 automated tests passing across 10 test files
 - Zero TypeScript errors
 - Zero ESLint warnings or errors
-- 60 static pages and metadata routes generated successfully
+- 61 static pages and metadata routes generated successfully
 - Responsive system, light, and dark modes
 - Three selectable color palettes, font families, and text scales with local persistence
 - SEO metadata, canonical URLs, sitemap, and robots.txt
@@ -99,6 +99,7 @@ Detailed implementation history and the current handoff point are maintained in 
 - **Responsive interface:** workspaces adapt from mobile layouts to dual-pane desktop layouts.
 - **Configurable appearance:** system/light/dark modes, three palettes, three font families, and three text scales apply app-wide and persist on the device.
 - **Discoverability:** the app includes a searchable tools directory, category pages, structured page metadata, a sitemap, and robots.txt.
+- **Project transparency:** a dedicated About page introduces the project, developer, principles, support option, and forward roadmap.
 
 ## Technology
 
@@ -188,6 +189,7 @@ By default, the production server listens on port 3000. Standard Next.js environ
 | Route | Purpose |
 |-------|---------|
 | `/` | Homepage and featured tools |
+| `/about` | Project story, developer profile, principles, roadmap, and support section |
 | `/tools` | Searchable directory of all Phase 1 tools |
 | `/tools/[slug]` | Dedicated product and tool workspace page |
 | `/tools/category/[category]` | Text, JSON, Developer, or Encoding category page |
@@ -203,7 +205,7 @@ src/
 │   ├── shared/                  # Navigation, layout, SEO-supporting sections, theme, search
 │   ├── tools/                   # Interactive workspaces grouped by category
 │   └── ui/                      # Reusable controls
-├── config/                      # Appearance choices and browser-safety limits
+├── config/                      # Appearance, site/profile links, and browser-safety limits
 └── lib/
     ├── engines/                 # Pure processing logic grouped by category
     └── registry/                # 48-tool metadata and category registry
@@ -226,6 +228,12 @@ User-selectable appearance choices are defined in one typed configuration file: 
 Selections are stored in browser `localStorage` and applied before the first paint to avoid a visible reset during navigation or reload. `AppearanceProvider` owns runtime updates, while `ThemeProvider` continues to manage system/light/dark mode.
 
 Base semantic colors, glass surfaces, radius, and fallback typography tokens remain in `src/app/globals.css`. `tailwind.config.ts` maps Tailwind utilities to those CSS variables. Change shared tokens or the appearance configuration instead of restyling individual tools.
+
+## Site and Developer Configuration
+
+Developer details and external destinations used by the About page are centralized in `src/config/site.ts`. This includes the developer name, role, profile image and alt text, technology list, GitHub, LinkedIn, personal website, Buy Me a Coffee destination, and footer navigation. The local profile asset is stored at `public/images/usama-profile.jpeg` and rendered through Next.js image optimization.
+
+Optional links remain hidden when their value is `null`, preventing unfinished or unverified profiles from being exposed. GitHub, LinkedIn, and the personal website are configured. Add the actual Buy Me a Coffee profile URL in this file when available; its About-page button will appear automatically.
 
 ## Adding or Completing a Tool
 
@@ -269,6 +277,10 @@ Do not commit secrets or local environment files. `.env*.local`, private keys, b
 - **Step 5:** all 12 Developer tools — complete
 - **Step 6:** all 10 Encoding tools — complete
 - **Final Phase 1 acceptance pass:** registry integrity, linting, accessibility semantics, large-input protection, appearance configuration, and production verification — complete
+- **About/developer section:** project story, developer profile, principles, roadmap, support area, footer navigation, metadata, and sitemap integration — complete
+- **Phase 2:** Security, SQL, and CSV/Data tools — planned
+- **Phase 3:** API, Image, PDF, File, Networking, and Generation tools — planned
+- **Phase 4:** Data Engineering, SEO, QR/Barcode, and Advanced tools — planned
 
 The Phase 1 specification remains the source of truth for tool scope and acceptance criteria. Any future tools or product features belong to a new phase and are intentionally outside the completed Phase 1 scope.
 

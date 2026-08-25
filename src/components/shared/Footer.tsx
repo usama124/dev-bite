@@ -1,7 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import { ShieldCheck, Heart, Terminal, Sparkles } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { CATEGORY_LIST } from "@/lib/registry/categories";
+import { FOOTER_LINKS } from "@/config/site";
 
 export function Footer() {
   return (
@@ -75,11 +76,13 @@ export function Footer() {
           <div>
             <h4 className="font-semibold text-sm mb-3 text-foreground">Platform</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>
-                <Link href="/tools" className="hover:text-foreground transition-colors">
-                  All 48 Tools
-                </Link>
-              </li>
+              {FOOTER_LINKS.map((link) => (
+                <li key={link.label}>
+                  <Link href={link.href} className="hover:text-foreground transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
               <li>
                 <Link href="/sitemap.xml" className="hover:text-foreground transition-colors">
                   Sitemap

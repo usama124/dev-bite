@@ -12,8 +12,8 @@ import {
   Binary,
   Menu,
   X,
-  Github,
   Command,
+  UserRound,
 } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { CommandSearch } from "./CommandSearch";
@@ -41,6 +41,7 @@ export function Navbar() {
     { label: "JSON", href: "/tools/category/json", icon: Braces },
     { label: "Developer", href: "/tools/category/developer", icon: Code2 },
     { label: "Encoding", href: "/tools/category/encoding", icon: Binary },
+    { label: "About", href: "/about", icon: UserRound },
   ];
 
   return (

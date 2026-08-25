@@ -96,7 +96,7 @@ export default function HomePage() {
         </section>
 
         {/* Categories Explorer */}
-        <section className="space-y-4">
+        <section id="categories" className="scroll-mt-24 space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold tracking-tight text-foreground flex items-center gap-2">
               <Sparkles className="h-4 w-4 text-primary" />
