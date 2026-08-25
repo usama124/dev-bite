@@ -1,2 +1,258 @@
-# dev-bite
-DEV Bite is the utility for developers for their daily tasks like string, json opreations, UUID generation, API keys generation and lot more
+# DevBite
+
+DevBite is a privacy-first collection of fast, focused utilities for developers, writers, and data work. Every live tool runs entirely in the browser: input is processed locally and is not uploaded to an application server.
+
+The Phase 1 catalog contains 48 dedicated tool pages across Text, JSON, Developer, and Encoding categories. The current build has **28 fully interactive tools**; the remaining catalog pages are already available with product metadata and will receive their workspaces in the next implementation phases.
+
+> **Source availability:** This repository is proprietary. Viewing the source does not grant permission to copy, modify, distribute, deploy, or commercially use it. See [LICENSE](LICENSE).
+
+## Current Status
+
+| Category | Live | Phase 1 total | Status |
+|----------|-----:|--------------:|--------|
+| Text | 12 | 12 | Complete |
+| JSON | 14 | 14 | Complete |
+| Developer | 1 | 12 | Step 5 pending |
+| Encoding | 1 | 10 | Step 6 pending |
+| **Total** | **28** | **48** | **Steps 1–4 complete** |
+
+The current verified baseline is:
+
+- 39 automated tests passing
+- Zero TypeScript errors
+- 59 static pages generated successfully
+- Responsive light and dark themes
+- SEO metadata, canonical URLs, sitemap, and robots.txt
+
+Detailed implementation history and the current handoff point are maintained in [walkthrough.md](walkthrough.md). The complete Phase 1 product requirements are in [docs/Phase_1_Product_Specification_48_Tools.docx](docs/Phase_1_Product_Specification_48_Tools.docx).
+
+## Live Tools
+
+### Text tools — 12/12
+
+- Word Counter
+- Character Counter
+- Text Statistics
+- Whitespace Remover
+- Text Cleaner
+- Case Converter
+- Find & Replace
+- Find & Remove
+- Remove Duplicate Lines
+- Sort Lines
+- Text Diff
+- Text Joiner/Splitter
+
+### JSON tools — 14/14
+
+- JSON Formatter
+- JSON Validator
+- JSON Minifier
+- JSON Viewer
+- JSON Tree Viewer
+- JSON Sorter
+- JSON Flatten
+- JSON Unflatten
+- JSON Diff
+- JSON Path Tester
+- JSON Key Extractor
+- JSON Key Remover
+- JSON → CSV
+- CSV → JSON
+
+### Developer tools — 1/12
+
+- UUID Generator, including UUID v1, v4, v7, nil UUID, formatting, and validation
+
+The remaining Phase 1 Developer tools are planned for Step 5.
+
+### Encoding tools — 1/10
+
+- Base64 Encoder/Decoder, including UTF-8 text, local files, URL-safe mode, padding, and line wrapping
+
+The remaining Phase 1 Encoding tools are planned for Step 6.
+
+## Product Features
+
+- **Private by design:** live transformations run client-side in the browser.
+- **Focused workspaces:** each utility has its own route, metadata, examples, instructions, FAQs, and related-tool links.
+- **Reusable actions:** tools share consistent sample, clear, copy, and download controls.
+- **Immediate feedback:** most outputs and statistics update as the input or options change.
+- **Responsive interface:** workspaces adapt from mobile layouts to dual-pane desktop layouts.
+- **Theme support:** light, dark, and system themes are supported through shared design tokens.
+- **Discoverability:** the app includes a searchable tools directory, category pages, structured page metadata, a sitemap, and robots.txt.
+
+## Technology
+
+- Next.js 14 App Router
+- React 18
+- TypeScript 5
+- Tailwind CSS 3
+- `next-themes`
+- Lucide React icons
+- Vitest
+- pnpm lockfile and workspace configuration
+
+No database, account, API key, or runtime environment variable is currently required.
+
+## Requirements
+
+- Node.js 18.17 or newer
+- pnpm 9+ or npm 9+
+
+The repository includes a local toolchain under `.tools/node` in the original development workspace, but `.tools` is intentionally ignored by Git. On another machine, use your normal Node.js installation.
+
+## Installation
+
+Clone or open the repository, then install dependencies with one package manager.
+
+Using pnpm:
+
+```bash
+pnpm install
+```
+
+Using npm:
+
+```bash
+npm install
+```
+
+Do not alternate package managers within the same working copy unless you intentionally want to regenerate the lockfile.
+
+## Running Locally
+
+Start the development server:
+
+```bash
+pnpm dev
+```
+
+Or with npm:
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000). Next.js will automatically reload the application as source files change.
+
+If you are using the repository-local toolchain from the original workspace:
+
+```bash
+./.tools/node/bin/pnpm dev
+```
+
+## Available Commands
+
+| Command | Purpose |
+|---------|---------|
+| `pnpm dev` | Start the Next.js development server |
+| `pnpm build` | Create and validate an optimized production build |
+| `pnpm start` | Serve a previously generated production build |
+| `pnpm typecheck` | Run TypeScript without emitting files |
+| `pnpm test` | Run all Vitest tests once |
+| `pnpm test:watch` | Run Vitest in watch mode |
+| `pnpm lint` | Run Next.js linting after ESLint has been configured |
+
+Equivalent `npm run <script>` commands can be used when dependencies were installed with npm.
+
+## Production Build
+
+```bash
+pnpm build
+pnpm start
+```
+
+By default, the production server listens on port 3000. Standard Next.js environment variables such as `PORT` may be used by the hosting environment.
+
+## Main Routes
+
+| Route | Purpose |
+|-------|---------|
+| `/` | Homepage and featured tools |
+| `/tools` | Searchable directory of all Phase 1 tools |
+| `/tools/[slug]` | Dedicated product and tool workspace page |
+| `/tools/category/[category]` | Text, JSON, Developer, or Encoding category page |
+| `/sitemap.xml` | Generated sitemap for public pages |
+| `/robots.txt` | Search crawler directives |
+
+## Project Structure
+
+```text
+src/
+├── app/                         # App Router pages, layout, sitemap, and global CSS
+├── components/
+│   ├── shared/                  # Navigation, layout, SEO-supporting sections, theme, search
+│   ├── tools/                   # Interactive workspaces grouped by category
+│   └── ui/                      # Reusable controls
+└── lib/
+    ├── engines/                 # Pure processing logic grouped by category
+    └── registry/                # 48-tool metadata and category registry
+tests/                           # Vitest unit tests for processing engines
+docs/                            # Phase 1 product specification
+walkthrough.md                   # Build history, verification, and handoff state
+```
+
+Processing logic belongs in `src/lib/engines`, while React components should focus on presentation and user interaction. New routes are driven by the central tool registry and rendered through `src/components/tools/ToolRenderer.tsx`.
+
+## Theme and Typography Configuration
+
+App-wide visual tokens are centralized near the top of `src/app/globals.css`.
+
+- `--font-sans`: application interface font stack
+- `--font-mono`: editors, code, and generated output font stack
+- `--base-font-size`: root font size for app-wide scaling
+- `--background`, `--foreground`, `--primary`, and related semantic colors: light theme
+- `.dark` equivalents: dark theme
+- `--radius`: shared corner radius
+- `--glass-*`: glass surface appearance
+
+`tailwind.config.ts` maps Tailwind utilities to these variables. Update the tokens instead of restyling individual components to keep the product consistent.
+
+## Adding or Completing a Tool
+
+To preserve the current modular architecture:
+
+1. Add pure, browser-safe processing logic under `src/lib/engines/<category>/`.
+2. Add unit coverage under `tests/` for normal, edge, and invalid inputs.
+3. Build the workspace under `src/components/tools/<category>/` using the shared UI and tool action components.
+4. Register the workspace in `src/components/tools/ToolRenderer.tsx` using the existing slug from `src/lib/registry/tools.ts`.
+5. Run tests, type checking, and a production build.
+6. Update `walkthrough.md` with the new current state.
+
+Avoid duplicating processing logic inside page components or creating a separate visual pattern for an individual tool.
+
+## Verification
+
+Run the complete local verification sequence:
+
+```bash
+pnpm test
+pnpm typecheck
+pnpm build
+```
+
+ESLint does not currently have a committed configuration. The first `pnpm lint` invocation will prompt for one; configure it before relying on lint as an unattended check.
+
+## Privacy and Security
+
+The implemented tools use browser APIs and local JavaScript processing. Text, JSON, uploaded CSV files, and generated values are not intentionally sent to a DevBite backend. When adding dependencies or future tools, preserve this guarantee unless the product documentation and user-facing privacy messaging are explicitly updated.
+
+Do not commit secrets or local environment files. `.env*.local`, private keys, build output, dependencies, and the local toolchain are excluded by `.gitignore`.
+
+## Roadmap
+
+- **Steps 1–2:** foundation, registry, SEO routes, and four representative launch tools — complete
+- **Step 3:** all 12 Text tools — complete
+- **Step 4:** all 14 JSON tools — complete
+- **Step 5:** complete the remaining Developer tools
+- **Step 6:** complete the remaining Encoding tools
+- **Final Phase 1 pass:** accessibility, cross-browser review, performance, final SEO/content review, and deployment readiness
+
+The Phase 1 specification remains the source of truth for tool scope and acceptance criteria.
+
+## License
+
+Copyright © 2026 DevBite. All rights reserved.
+
+This is proprietary software. No license is granted to use, copy, modify, distribute, sublicense, sell, host, or create derivative works from the source code except under a separate written agreement with the copyright holder. See [LICENSE](LICENSE) for the controlling terms.
