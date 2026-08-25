@@ -16,6 +16,12 @@ export interface Base64Result {
   charCount: number;
 }
 
+export interface Base64BytesResult {
+  success: boolean;
+  bytes: Uint8Array;
+  error?: string;
+}
+
 // Convert Uint8Array to standard Base64 string
 export function bytesToBase64(bytes: Uint8Array): string {
   let binary = "";
@@ -34,6 +40,30 @@ export function base64ToBytes(base64: string): Uint8Array {
     bytes[i] = binary.charCodeAt(i);
   }
   return bytes;
+}
+
+function normalizeBase64(input: string): { value?: string; error?: string } {
+  let sanitized = input.trim().replace(/\s+/g, "").replace(/-/g, "+").replace(/_/g, "/");
+  if (sanitized.length % 4 === 1) {
+    return { error: "Invalid Base64 length. The encoded value cannot have a remainder of one character." };
+  }
+  const padLength = (4 - (sanitized.length % 4)) % 4;
+  sanitized += "=".repeat(padLength);
+  if (!/^[A-Za-z0-9+/]*={0,2}$/.test(sanitized) || /=/.test(sanitized.slice(0, -2))) {
+    return { error: "Invalid Base64 string. Input contains characters outside the Base64 alphabet or misplaced padding." };
+  }
+  return { value: sanitized };
+}
+
+export function decodeBase64ToBytes(input: string): Base64BytesResult {
+  if (!input.trim()) return { success: true, bytes: new Uint8Array() };
+  try {
+    const normalized = normalizeBase64(input);
+    if (!normalized.value) return { success: false, bytes: new Uint8Array(), error: normalized.error };
+    return { success: true, bytes: base64ToBytes(normalized.value) };
+  } catch {
+    return { success: false, bytes: new Uint8Array(), error: "Unable to decode Base64 data. Check the input and padding." };
+  }
 }
 
 export function encodeBase64(
@@ -106,29 +136,17 @@ export function decodeBase64(
   }
 
   try {
-    let sanitized = input.trim().replace(/\s+/g, "");
-
-    // Convert URL-safe characters back to standard Base64
-    sanitized = sanitized.replace(/-/g, "+").replace(/_/g, "/");
-
-    // Add back missing padding if necessary
-    const padLength = (4 - (sanitized.length % 4)) % 4;
-    if (padLength > 0 && padLength < 4) {
-      sanitized += "=".repeat(padLength);
-    }
-
-    // Validate Base64 characters
-    if (!/^[A-Za-z0-9+/]+={0,2}$/.test(sanitized)) {
+    const decoded = decodeBase64ToBytes(input);
+    if (!decoded.success) {
       return {
         success: false,
         output: "",
-        error: "Invalid Base64 string. Input contains characters outside the Base64 alphabet.",
+        error: decoded.error,
         byteSize: 0,
         charCount: 0,
       };
     }
-
-    const bytes = base64ToBytes(sanitized);
+    const bytes = decoded.bytes;
     const decodedText = new TextDecoder("utf-8", { fatal: false }).decode(bytes);
 
     return {

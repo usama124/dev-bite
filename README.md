@@ -2,7 +2,7 @@
 
 DevBite is a privacy-first collection of fast, focused utilities for developers, writers, and data work. Every live tool runs entirely in the browser: input is processed locally and is not uploaded to an application server.
 
-The Phase 1 catalog contains 48 dedicated tool pages across Text, JSON, Developer, and Encoding categories. The current build has **28 fully interactive tools**; the remaining catalog pages are already available with product metadata and will receive their workspaces in the next implementation phases.
+The Phase 1 catalog contains **48 fully interactive tool pages** across Text, JSON, Developer, and Encoding categories. All planned Phase 1 tool workspaces are implemented; the remaining roadmap is the final accessibility, compatibility, performance, content, and deployment-readiness pass.
 
 > **Source availability:** This repository is proprietary. Viewing the source does not grant permission to copy, modify, distribute, deploy, or commercially use it. See [LICENSE](LICENSE).
 
@@ -12,13 +12,13 @@ The Phase 1 catalog contains 48 dedicated tool pages across Text, JSON, Develope
 |----------|-----:|--------------:|--------|
 | Text | 12 | 12 | Complete |
 | JSON | 14 | 14 | Complete |
-| Developer | 1 | 12 | Step 5 pending |
-| Encoding | 1 | 10 | Step 6 pending |
-| **Total** | **28** | **48** | **Steps 1–4 complete** |
+| Developer | 12 | 12 | Complete |
+| Encoding | 10 | 10 | Complete |
+| **Total** | **48** | **48** | **Steps 1–6 complete** |
 
 The current verified baseline is:
 
-- 39 automated tests passing
+- 55 automated tests passing
 - Zero TypeScript errors
 - 60 static pages and metadata routes generated successfully
 - Responsive light and dark themes
@@ -60,17 +60,33 @@ Detailed implementation history and the current handoff point are maintained in 
 - JSON → CSV
 - CSV → JSON
 
-### Developer tools — 1/12
+### Developer tools — 12/12
 
-- UUID Generator, including UUID v1, v4, v7, nil UUID, formatting, and validation
+- UUID Generator
+- UUID Validator and batch inspector
+- UUID v4 Generator
+- UUID v7 Generator
+- Random ID Generator
+- Regex Tester
+- Regex Replace
+- Regex Extractor
+- Unix Timestamp Converter
+- Timezone Converter
+- URL Parser
+- Cron → Human Readable
 
-The remaining Phase 1 Developer tools are planned for Step 5.
+### Encoding tools — 10/10
 
-### Encoding tools — 1/10
-
-- Base64 Encoder/Decoder, including UTF-8 text, local files, URL-safe mode, padding, and line wrapping
-
-The remaining Phase 1 Encoding tools are planned for Step 6.
+- Base64 Encoder
+- Base64 Decoder
+- Base64 URL Encoder
+- Base64 URL Decoder
+- URL Encoder
+- URL Decoder
+- HTML Encoder
+- HTML Decoder
+- Hex Encoder
+- Hex Decoder
 
 ## Product Features
 
@@ -245,8 +261,8 @@ Do not commit secrets or local environment files. `.env*.local`, private keys, b
 - **Steps 1–2:** foundation, registry, SEO routes, and four representative launch tools — complete
 - **Step 3:** all 12 Text tools — complete
 - **Step 4:** all 14 JSON tools — complete
-- **Step 5:** complete the remaining Developer tools
-- **Step 6:** complete the remaining Encoding tools
+- **Step 5:** all 12 Developer tools — complete
+- **Step 6:** all 10 Encoding tools — complete
 - **Final Phase 1 pass:** accessibility, cross-browser review, performance, final SEO/content review, and deployment readiness
 
 The Phase 1 specification remains the source of truth for tool scope and acceptance criteria.

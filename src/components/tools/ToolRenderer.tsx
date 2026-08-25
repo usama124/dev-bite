@@ -119,15 +119,75 @@ const JsonCsvConverterTool = dynamic(
   { ssr: false }
 );
 
-// 3. Developer Representative
+// 3. Developer Category Tools (12/12 Live)
 const UuidGeneratorTool = dynamic(
   () => import("./developer/UuidGeneratorTool").then((m) => m.UuidGeneratorTool),
   { ssr: false }
 );
 
-// 4. Encoding Representative
+const UuidValidatorTool = dynamic(
+  () => import("./developer/UuidValidatorTool").then((m) => m.UuidValidatorTool),
+  { ssr: false }
+);
+
+const UuidVersionGeneratorTool = dynamic(
+  () => import("./developer/UuidVersionGeneratorTool").then((m) => m.UuidVersionGeneratorTool),
+  { ssr: false }
+);
+
+const RandomIdGeneratorTool = dynamic(
+  () => import("./developer/RandomIdGeneratorTool").then((m) => m.RandomIdGeneratorTool),
+  { ssr: false }
+);
+
+const RegexTool = dynamic(
+  () => import("./developer/RegexTool").then((m) => m.RegexTool),
+  { ssr: false }
+);
+
+const TimestampConverterTool = dynamic(
+  () => import("./developer/TimestampConverterTool").then((m) => m.TimestampConverterTool),
+  { ssr: false }
+);
+
+const TimezoneConverterTool = dynamic(
+  () => import("./developer/TimezoneConverterTool").then((m) => m.TimezoneConverterTool),
+  { ssr: false }
+);
+
+const UrlParserTool = dynamic(
+  () => import("./developer/UrlParserTool").then((m) => m.UrlParserTool),
+  { ssr: false }
+);
+
+const CronHumanReadableTool = dynamic(
+  () => import("./developer/CronHumanReadableTool").then((m) => m.CronHumanReadableTool),
+  { ssr: false }
+);
+
+// 4. Encoding Category Tools (10/10 Live)
 const Base64EncoderTool = dynamic(
   () => import("./encoding/Base64EncoderTool").then((m) => m.Base64EncoderTool),
+  { ssr: false }
+);
+
+const Base64CodecTool = dynamic(
+  () => import("./encoding/Base64CodecTool").then((m) => m.Base64CodecTool),
+  { ssr: false }
+);
+
+const UrlCodecTool = dynamic(
+  () => import("./encoding/UrlCodecTool").then((m) => m.UrlCodecTool),
+  { ssr: false }
+);
+
+const HtmlEntityTool = dynamic(
+  () => import("./encoding/HtmlEntityTool").then((m) => m.HtmlEntityTool),
+  { ssr: false }
+);
+
+const HexCodecTool = dynamic(
+  () => import("./encoding/HexCodecTool").then((m) => m.HexCodecTool),
   { ssr: false }
 );
 
@@ -193,13 +253,55 @@ export function ToolRenderer({ tool }: ToolRendererProps) {
     case "csv-to-json":
       return <JsonCsvConverterTool mode="csv-to-json" />;
 
-    // Representative Tools
+    // Developer Category (12 tools)
     case "uuid-generator":
       return <UuidGeneratorTool />;
+    case "uuid-validator":
+      return <UuidValidatorTool />;
+    case "uuid-v4-generator":
+      return <UuidVersionGeneratorTool version="v4" />;
+    case "uuid-v7-generator":
+      return <UuidVersionGeneratorTool version="v7" />;
+    case "random-id-generator":
+      return <RandomIdGeneratorTool />;
+    case "regex-tester":
+      return <RegexTool mode="test" />;
+    case "regex-replace":
+      return <RegexTool mode="replace" />;
+    case "regex-extractor":
+      return <RegexTool mode="extract" />;
+    case "unix-timestamp-converter":
+      return <TimestampConverterTool />;
+    case "timezone-converter":
+      return <TimezoneConverterTool />;
+    case "url-parser":
+      return <UrlParserTool />;
+    case "cron-to-human-readable":
+      return <CronHumanReadableTool />;
+
+    // Encoding Category (10 tools)
     case "base64-encoder":
       return <Base64EncoderTool />;
+    case "base64-decoder":
+      return <Base64CodecTool mode="decode" />;
+    case "base64-url-encoder":
+      return <Base64CodecTool mode="url-encode" />;
+    case "base64-url-decoder":
+      return <Base64CodecTool mode="url-decode" />;
+    case "url-encoder":
+      return <UrlCodecTool operation="encode" />;
+    case "url-decoder":
+      return <UrlCodecTool operation="decode" />;
+    case "html-encoder":
+      return <HtmlEntityTool operation="encode" />;
+    case "html-decoder":
+      return <HtmlEntityTool operation="decode" />;
+    case "hex-encoder":
+      return <HexCodecTool operation="encode" />;
+    case "hex-decoder":
+      return <HexCodecTool operation="decode" />;
 
-    // Remaining upcoming tools
+    // Registry fallback for future additions
     default:
       return (
         <ToolWorkspace className="text-center py-12 px-6 space-y-6">
