@@ -75,6 +75,7 @@ export function Navbar() {
                   <Link
                     key={link.href}
                     href={link.href}
+                    aria-current={isActive ? "page" : undefined}
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors ${
                       isActive
                         ? "bg-primary/10 text-primary font-semibold"
@@ -130,6 +131,7 @@ export function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
+                  aria-current={isActive ? "page" : undefined}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors ${
                     isActive

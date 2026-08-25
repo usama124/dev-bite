@@ -103,6 +103,13 @@ describe("Text Category Processing Engines", () => {
     expect(diff.unchanged).toBeGreaterThanOrEqual(2);
   });
 
+  it("should reject text diffs that exceed the browser-safe matrix limit", () => {
+    const large = Array.from({ length: 1500 }, (_, index) => `line ${index}`).join("\n");
+    const diff = diffLines(large, large);
+    expect(diff.error).toContain("too large");
+    expect(diff.lines).toEqual([]);
+  });
+
   // 10. Joiner & Splitter
   it("should join lines with delimiters and split text into lines", () => {
     const lines = "apple\nbanana\ncherry";

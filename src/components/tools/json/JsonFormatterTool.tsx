@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useTransition } from "react";
+import React, { useState, useEffect, useTransition, useCallback } from "react";
 import { formatJson, JsonFormatResult } from "@/lib/engines/json/formatter";
 import { ToolWorkspace } from "../shared/ToolWorkspace";
 import { Textarea } from "@/components/ui/textarea";
@@ -42,7 +42,7 @@ export function JsonFormatterTool() {
   const [result, setResult] = useState<JsonFormatResult | null>(null);
   const [, startTransition] = useTransition();
 
-  const handleFormat = (compactMode = isCompact) => {
+  const handleFormat = useCallback((compactMode = isCompact) => {
     startTransition(() => {
       const res = formatJson(input, {
         indent,
@@ -54,7 +54,7 @@ export function JsonFormatterTool() {
         setOutput(res.output);
       }
     });
-  };
+  }, [indent, input, isCompact, sortKeys]);
 
   useEffect(() => {
     if (input.trim()) {
@@ -63,7 +63,7 @@ export function JsonFormatterTool() {
       setOutput("");
       setResult(null);
     }
-  }, [input, indent, sortKeys, isCompact]);
+  }, [handleFormat, input]);
 
   const handleMinify = () => {
     setIsCompact(true);

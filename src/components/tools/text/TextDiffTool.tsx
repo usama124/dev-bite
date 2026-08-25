@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { ClearButton } from "../shared/ClearButton";
 import { SampleButton } from "../shared/SampleButton";
+import { ErrorMessage } from "../shared/ErrorMessage";
 import { GitCompare, PlusCircle, MinusCircle, Check } from "lucide-react";
 
 const SAMPLE_A = `function calculateTotal(items) {
@@ -97,7 +98,7 @@ export function TextDiffTool() {
         <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           Visual Comparison Output
         </span>
-        <div className="rounded-xl border border-border/80 bg-background/90 font-mono text-xs overflow-x-auto divide-y divide-border/40">
+        {diff.error ? <ErrorMessage title="Comparison Limit" message={diff.error} /> : <div className="rounded-xl border border-border/80 bg-background/90 font-mono text-xs overflow-x-auto divide-y divide-border/40">
           {diff.lines.length === 0 ? (
             <div className="p-8 text-center text-muted-foreground text-xs">
               Enter text in both sides above to see highlighted difference view.
@@ -137,7 +138,7 @@ export function TextDiffTool() {
               );
             })
           )}
-        </div>
+        </div>}
       </div>
     </ToolWorkspace>
   );

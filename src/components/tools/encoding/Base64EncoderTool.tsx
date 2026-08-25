@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useTransition } from "react";
+import React, { useState, useEffect, useTransition, useCallback } from "react";
 import Link from "next/link";
 import { encodeBase64, decodeBase64, Base64Result } from "@/lib/engines/encoding/base64";
 import { ToolWorkspace } from "../shared/ToolWorkspace";
@@ -28,7 +28,7 @@ export function Base64EncoderTool() {
   const [fileName, setFileName] = useState<string>("");
   const [, startTransition] = useTransition();
 
-  const handleEncode = () => {
+  const handleEncode = useCallback(() => {
     startTransition(() => {
       const res = encodeBase64(inputText, {
         urlSafe,
@@ -37,7 +37,7 @@ export function Base64EncoderTool() {
       });
       setResult(res);
     });
-  };
+  }, [inputText, lineWrap, padding, urlSafe]);
 
   useEffect(() => {
     if (inputText) {
@@ -45,7 +45,7 @@ export function Base64EncoderTool() {
     } else {
       setResult(null);
     }
-  }, [inputText, urlSafe, padding, lineWrap]);
+  }, [handleEncode, inputText]);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

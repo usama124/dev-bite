@@ -2,7 +2,7 @@
 
 DevBite is a privacy-first collection of fast, focused utilities for developers, writers, and data work. Every live tool runs entirely in the browser: input is processed locally and is not uploaded to an application server.
 
-The Phase 1 catalog contains **48 fully interactive tool pages** across Text, JSON, Developer, and Encoding categories. All planned Phase 1 tool workspaces are implemented; the remaining roadmap is the final accessibility, compatibility, performance, content, and deployment-readiness pass.
+The Phase 1 catalog contains **48 fully interactive tool pages** across Text, JSON, Developer, and Encoding categories. All planned tool workspaces and the final Phase 1 acceptance pass are complete.
 
 > **Source availability:** This repository is proprietary. Viewing the source does not grant permission to copy, modify, distribute, deploy, or commercially use it. See [LICENSE](LICENSE).
 
@@ -14,14 +14,16 @@ The Phase 1 catalog contains **48 fully interactive tool pages** across Text, JS
 | JSON | 14 | 14 | Complete |
 | Developer | 12 | 12 | Complete |
 | Encoding | 10 | 10 | Complete |
-| **Total** | **48** | **48** | **Steps 1–6 complete** |
+| **Total** | **48** | **48** | **Phase 1 complete** |
 
 The current verified baseline is:
 
-- 55 automated tests passing
+- 63 automated tests passing across 10 test files
 - Zero TypeScript errors
+- Zero ESLint warnings or errors
 - 60 static pages and metadata routes generated successfully
-- Responsive light and dark themes
+- Responsive system, light, and dark modes
+- Three selectable color palettes, font families, and text scales with local persistence
 - SEO metadata, canonical URLs, sitemap, and robots.txt
 
 Detailed implementation history and the current handoff point are maintained in [walkthrough.md](walkthrough.md). The complete Phase 1 product requirements are in [docs/Phase_1_Product_Specification_48_Tools.docx](docs/Phase_1_Product_Specification_48_Tools.docx).
@@ -95,7 +97,7 @@ Detailed implementation history and the current handoff point are maintained in 
 - **Reusable actions:** tools share consistent sample, clear, copy, and download controls.
 - **Immediate feedback:** most outputs and statistics update as the input or options change.
 - **Responsive interface:** workspaces adapt from mobile layouts to dual-pane desktop layouts.
-- **Theme support:** light, dark, and system themes are supported through shared design tokens.
+- **Configurable appearance:** system/light/dark modes, three palettes, three font families, and three text scales apply app-wide and persist on the device.
 - **Discoverability:** the app includes a searchable tools directory, category pages, structured page metadata, a sitemap, and robots.txt.
 
 ## Technology
@@ -201,6 +203,7 @@ src/
 │   ├── shared/                  # Navigation, layout, SEO-supporting sections, theme, search
 │   ├── tools/                   # Interactive workspaces grouped by category
 │   └── ui/                      # Reusable controls
+├── config/                      # Appearance choices and browser-safety limits
 └── lib/
     ├── engines/                 # Pure processing logic grouped by category
     └── registry/                # 48-tool metadata and category registry
@@ -211,19 +214,18 @@ walkthrough.md                   # Build history, verification, and handoff stat
 
 Processing logic belongs in `src/lib/engines`, while React components should focus on presentation and user interaction. New routes are driven by the central tool registry and rendered through `src/components/tools/ToolRenderer.tsx`.
 
-## Theme and Typography Configuration
+## Appearance Configuration
 
-App-wide visual tokens are centralized near the top of `src/app/globals.css`.
+User-selectable appearance choices are defined in one typed configuration file: `src/config/appearance.ts`. Add, remove, rename, or adjust an option there to update the appearance menu and application behavior together.
 
-- `--font-sans`: application interface font stack
-- `--font-mono`: editors, code, and generated output font stack
-- `--base-font-size`: root font size for app-wide scaling
-- `--background`, `--foreground`, `--primary`, and related semantic colors: light theme
-- `.dark` equivalents: dark theme
-- `--radius`: shared corner radius
-- `--glass-*`: glass surface appearance
+- **Color mode:** System, Light, or Dark
+- **Palette:** DevBite Indigo, Ocean Blue, or Emerald
+- **Font family:** System Sans, Humanist Sans, or Classic Serif
+- **Text scale:** Compact (15px), Default (16px), or Comfortable (18px)
 
-`tailwind.config.ts` maps Tailwind utilities to these variables. Update the tokens instead of restyling individual components to keep the product consistent.
+Selections are stored in browser `localStorage` and applied before the first paint to avoid a visible reset during navigation or reload. `AppearanceProvider` owns runtime updates, while `ThemeProvider` continues to manage system/light/dark mode.
+
+Base semantic colors, glass surfaces, radius, and fallback typography tokens remain in `src/app/globals.css`. `tailwind.config.ts` maps Tailwind utilities to those CSS variables. Change shared tokens or the appearance configuration instead of restyling individual tools.
 
 ## Adding or Completing a Tool
 
@@ -243,12 +245,15 @@ Avoid duplicating processing logic inside page components or creating a separate
 Run the complete local verification sequence:
 
 ```bash
+pnpm lint
 pnpm test
 pnpm typecheck
 pnpm build
 ```
 
-ESLint does not currently have a committed configuration. The first `pnpm lint` invocation will prompt for one; configure it before relying on lint as an unattended check.
+The committed ESLint configuration extends Next.js Core Web Vitals, so linting runs unattended in local development and CI.
+
+The text-diff engine protects the browser from excessive quadratic work by limiting a comparison to 2,000,000 line-pair cells. The threshold is centralized in `src/config/limits.ts`; oversized input returns an actionable message asking the user to compare smaller sections.
 
 ## Privacy and Security
 
@@ -263,9 +268,9 @@ Do not commit secrets or local environment files. `.env*.local`, private keys, b
 - **Step 4:** all 14 JSON tools — complete
 - **Step 5:** all 12 Developer tools — complete
 - **Step 6:** all 10 Encoding tools — complete
-- **Final Phase 1 pass:** accessibility, cross-browser review, performance, final SEO/content review, and deployment readiness
+- **Final Phase 1 acceptance pass:** registry integrity, linting, accessibility semantics, large-input protection, appearance configuration, and production verification — complete
 
-The Phase 1 specification remains the source of truth for tool scope and acceptance criteria.
+The Phase 1 specification remains the source of truth for tool scope and acceptance criteria. Any future tools or product features belong to a new phase and are intentionally outside the completed Phase 1 scope.
 
 ## License
 

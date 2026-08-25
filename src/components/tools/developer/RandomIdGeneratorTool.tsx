@@ -23,6 +23,7 @@ export function RandomIdGeneratorTool() {
   const [excludeAmbiguous, setExcludeAmbiguous] = useState(false);
   const [generation, setGeneration] = useState(0);
   const result = useMemo(() => {
+    void generation;
     try {
       return { output: generateRandomIds({ length, quantity, alphabet: alphabet === "custom" ? "alphanumeric" : alphabet, customAlphabet: alphabet === "custom" ? customAlphabet : undefined, prefix, suffix, excludeAmbiguous }).join("\n") };
     } catch (error) {

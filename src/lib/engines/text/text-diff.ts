@@ -1,3 +1,5 @@
+import { TOOL_LIMITS } from "@/config/limits";
+
 export type DiffType = "unchanged" | "added" | "removed";
 
 export interface DiffLine {
@@ -12,6 +14,7 @@ export interface DiffResult {
   additions: number;
   deletions: number;
   unchanged: number;
+  error?: string;
 }
 
 // LCS (Longest Common Subsequence) Line Diff Engine
@@ -21,6 +24,16 @@ export function diffLines(textA: string, textB: string): DiffResult {
 
   const n = linesA.length;
   const m = linesB.length;
+
+  if (n * m > TOOL_LIMITS.textDiffMaxMatrixCells) {
+    return {
+      lines: [],
+      additions: 0,
+      deletions: 0,
+      unchanged: 0,
+      error: `This comparison is too large for the browser-safe diff limit (${TOOL_LIMITS.textDiffMaxMatrixCells.toLocaleString()} line comparisons). Split the inputs into smaller sections and try again.`,
+    };
+  }
 
   // DP table for LCS
   const dp: number[][] = Array.from({ length: n + 1 }, () =>

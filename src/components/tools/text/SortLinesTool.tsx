@@ -31,6 +31,7 @@ export function SortLinesTool() {
   const [shuffleSeed, setShuffleSeed] = useState(0);
 
   const output = useMemo(() => {
+    void shuffleSeed;
     return sortLines(input, {
       mode,
       direction,

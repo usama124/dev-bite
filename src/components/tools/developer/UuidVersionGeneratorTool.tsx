@@ -18,10 +18,10 @@ export function UuidVersionGeneratorTool({ version }: { version: Extract<UuidVer
   const [hyphens, setHyphens] = useState(true);
   const [format, setFormat] = useState<UuidFormat>("plain");
   const [generation, setGeneration] = useState(0);
-  const values = useMemo(
-    () => generateUuids({ version, quantity, uppercase, hyphens }),
-    [generation, hyphens, quantity, uppercase, version]
-  );
+  const values = useMemo(() => {
+    void generation;
+    return generateUuids({ version, quantity, uppercase, hyphens });
+  }, [generation, hyphens, quantity, uppercase, version]);
   const output = formatUuidOutput(values, format);
 
   useEffect(() => setGeneration((value) => value + 1), [version]);

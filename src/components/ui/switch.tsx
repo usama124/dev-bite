@@ -31,6 +31,7 @@ export function Switch({
         type="button"
         role="switch"
         aria-checked={checked}
+        aria-label={label}
         id={id}
         disabled={disabled}
         onClick={() => onCheckedChange(!checked)}

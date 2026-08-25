@@ -69,7 +69,7 @@ const config: Config = {
       boxShadow: {
         'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.08)',
         'glass-dark': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
-        'glow': '0 0 25px -5px rgba(99, 102, 241, 0.3)',
+        'glow': '0 0 25px -5px rgb(var(--primary-rgb) / 0.3)',
       },
       keyframes: {
         "fade-in": {

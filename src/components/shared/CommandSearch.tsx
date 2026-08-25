@@ -176,7 +176,7 @@ export function CommandSearch({ isOpen, onClose }: CommandSearchProps) {
                           : tool.category === "json"
                           ? "bg-amber-500/10 text-amber-600 dark:text-amber-400"
                           : tool.category === "developer"
-                          ? "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400"
+                          ? "bg-primary/10 text-primary"
                           : "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
                       }`}
                     >

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   generateUuids,
   formatUuidOutput,
@@ -34,7 +34,7 @@ export function UuidGeneratorTool() {
   const [validateInput, setValidateInput] = useState("");
   const [validationResult, setValidationResult] = useState<UuidValidationResult | null>(null);
 
-  const handleGenerate = () => {
+  const handleGenerate = useCallback(() => {
     const list = generateUuids({
       version,
       quantity,
@@ -43,11 +43,11 @@ export function UuidGeneratorTool() {
       format,
     });
     setGeneratedList(list);
-  };
+  }, [format, hyphens, quantity, uppercase, version]);
 
   useEffect(() => {
     handleGenerate();
-  }, [version, quantity, uppercase, hyphens, format]);
+  }, [handleGenerate]);
 
   const formattedOutput = formatUuidOutput(generatedList, format);
 

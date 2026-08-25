@@ -67,7 +67,7 @@ export default function HomePage() {
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-foreground leading-[1.1]">
             Your Everyday <br className="hidden sm:inline" />
-            <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 bg-clip-text text-transparent">
+            <span className="theme-gradient-text bg-clip-text text-transparent">
               Online Toolbox
             </span>
           </h1>
