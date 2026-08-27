@@ -8,9 +8,9 @@ export function Footer() {
   return (
     <footer className="mt-20 border-t border-border/60 bg-muted/20 backdrop-blur-md">
       <div className="container py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-5 lg:gap-12">
           {/* Brand & Privacy */}
-          <div className="md:col-span-2 space-y-4">
+          <div className="space-y-4 sm:col-span-2 lg:col-span-2">
             <div className="flex items-center gap-2.5">
               <div className="h-8 w-8 rounded-lg bg-gradient-to-tr from-indigo-600 to-cyan-500 flex items-center justify-center text-white font-black text-base shadow-sm">
                 D
@@ -93,7 +93,7 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-6 border-t border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border/40 pt-6 text-center text-xs text-muted-foreground sm:flex-row sm:text-left">
           <p>&copy; {new Date().getFullYear()} DevBite. Built for developers worldwide.</p>
           <div className="flex items-center gap-1">
             <span>Fast &bull; Private &bull; Open Web Utilities</span>

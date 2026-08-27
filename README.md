@@ -99,7 +99,7 @@ Detailed implementation history and the current handoff point are maintained in 
 - **Responsive interface:** workspaces adapt from mobile layouts to dual-pane desktop layouts.
 - **Configurable appearance:** system/light/dark modes, three palettes, three font families, and three text scales apply app-wide and persist on the device.
 - **Discoverability:** the app includes a searchable tools directory, category pages, structured page metadata, a sitemap, and robots.txt.
-- **Project transparency:** a dedicated About page introduces the project, developer, principles, support option, and forward roadmap.
+- **Project transparency:** a dedicated, mobile-first About page introduces the project, developer, principles, support option, and forward roadmap.
 
 ## Technology
 

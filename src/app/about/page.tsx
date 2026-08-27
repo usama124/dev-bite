@@ -122,13 +122,13 @@ export default function AboutPage() {
       <Breadcrumbs items={[{ label: "About" }]} />
 
       <div className="space-y-14 md:space-y-20">
-        <section className="grid items-center gap-8 py-6 md:grid-cols-[1fr_auto] md:py-10">
-          <div className="max-w-3xl space-y-5">
+        <section className="grid items-center gap-6 py-4 md:grid-cols-[1fr_auto] md:gap-10 md:py-10">
+          <div className="order-2 max-w-3xl space-y-5 text-center md:order-1 md:text-left">
             <p className="text-sm font-semibold text-primary">About DevBite</p>
-            <h1 className="text-4xl font-black leading-tight tracking-tight text-foreground sm:text-5xl md:text-6xl">
+            <h1 className="text-3xl font-black leading-[1.12] tracking-tight text-foreground sm:text-5xl md:text-6xl">
               Built by a Developer, for Developers.
             </h1>
-            <p className="max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            <p className="mx-auto max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg md:mx-0">
               A collection of fast, privacy-friendly online tools built to make everyday development and data tasks simpler.
             </p>
             <Link
@@ -140,13 +140,13 @@ export default function AboutPage() {
             </Link>
           </div>
 
-          <div className="relative mx-auto h-32 w-32 overflow-hidden rounded-3xl border border-primary/20 bg-primary/10 shadow-glass md:h-40 md:w-40">
+          <div className="relative order-1 mx-auto h-36 w-36 overflow-hidden rounded-3xl border border-primary/20 bg-primary/10 shadow-glass md:order-2 md:h-40 md:w-40">
             <Image
               src={SITE_CONFIG.developer.image}
               alt={SITE_CONFIG.developer.imageAlt}
               fill
               priority
-              sizes="(min-width: 768px) 160px, 128px"
+              sizes="(min-width: 768px) 160px, 144px"
               className="object-cover object-[center_28%]"
             />
           </div>
@@ -169,12 +169,12 @@ export default function AboutPage() {
           </article>
 
           <article className="glass-card rounded-2xl p-6 sm:p-8">
-            <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary">
+            <div className="flex items-start gap-3">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary">
                 <Code2 className="h-5 w-5" />
               </div>
-              <div>
-                <h2 className="text-2xl font-bold tracking-tight">Hi, I&apos;m {SITE_CONFIG.developer.name}.</h2>
+              <div className="min-w-0">
+                <h2 className="text-xl font-bold tracking-tight sm:text-2xl">Hi, I&apos;m {SITE_CONFIG.developer.name}.</h2>
                 <p className="text-sm font-medium text-primary">{SITE_CONFIG.developer.role}</p>
               </div>
             </div>
@@ -196,7 +196,7 @@ export default function AboutPage() {
                     href={href}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex h-9 items-center gap-2 rounded-lg border border-input bg-background/50 px-4 text-sm font-medium transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="inline-flex h-9 w-full items-center justify-center gap-2 rounded-lg border border-input bg-background/50 px-4 text-sm font-medium transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:w-auto"
                   >
                     <Icon className="h-4 w-4" />
                     {label}

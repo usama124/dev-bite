@@ -68,7 +68,7 @@ export function Navbar() {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-1 text-sm font-medium">
+            <nav className="hidden lg:flex items-center gap-1 text-sm font-medium">
               {navLinks.map((link) => {
                 const Icon = link.icon;
                 const isActive = pathname === link.href;
@@ -113,7 +113,7 @@ export function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden h-9 w-9 rounded-lg"
+              className="h-9 w-9 rounded-lg lg:hidden"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle mobile menu"
             >
@@ -124,7 +124,7 @@ export function Navbar() {
 
         {/* Mobile Dropdown Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-b border-border/60 bg-background/95 backdrop-blur-2xl px-4 py-3 space-y-1 animate-fade-in">
+          <div className="space-y-1 border-b border-border/60 bg-background/95 px-4 py-3 backdrop-blur-2xl animate-fade-in lg:hidden">
             {navLinks.map((link) => {
               const Icon = link.icon;
               const isActive = pathname === link.href;
