@@ -76,8 +76,8 @@ const roadmap = [
   },
   {
     phase: "Phase 2",
-    scope: "Security, SQL, CSV/Data",
-    status: "planned",
+    scope: "Security, SQL, CSV/Data — 57 tools",
+    status: "complete",
   },
   {
     phase: "Phase 3",
@@ -228,7 +228,7 @@ export default function AboutPage() {
 
         <section id="roadmap" className="scroll-mt-24 rounded-3xl border border-border/60 bg-muted/10 p-6 sm:p-8">
           <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">Roadmap</h2>
-          <p className="mt-2 text-sm text-muted-foreground">Phase 1 is complete. Later phases will expand the same focused, privacy-conscious approach.</p>
+          <p className="mt-2 text-sm text-muted-foreground">Phases 1 and 2 are complete. Later phases will expand the same focused, privacy-conscious approach.</p>
           <ol className="mt-6 grid gap-3 md:grid-cols-2">
             {roadmap.map((item) => {
               const complete = item.status === "complete";

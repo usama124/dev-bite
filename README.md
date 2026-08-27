@@ -2,31 +2,34 @@
 
 DevBite is a privacy-first collection of fast, focused utilities for developers, writers, and data work. Every live tool runs entirely in the browser: input is processed locally and is not uploaded to an application server.
 
-The Phase 1 catalog contains **48 fully interactive tool pages** across Text, JSON, Developer, and Encoding categories. All planned tool workspaces and the final Phase 1 acceptance pass are complete.
+DevBite contains **105 fully interactive tool pages**. Phase 1 is complete with 48 Text, JSON, Developer, and Encoding tools, and Phase 2 is complete with 57 Security, SQL, and CSV/Data tools.
 
 > **Source availability:** This repository is proprietary. Viewing the source does not grant permission to copy, modify, distribute, deploy, or commercially use it. See [LICENSE](LICENSE).
 
 ## Current Status
 
-| Category | Live | Phase 1 total | Status |
-|----------|-----:|--------------:|--------|
-| Text | 12 | 12 | Complete |
-| JSON | 14 | 14 | Complete |
-| Developer | 12 | 12 | Complete |
-| Encoding | 10 | 10 | Complete |
-| **Total** | **48** | **48** | **Phase 1 complete** |
+| Category | Live | Planned for its phase | Status |
+|----------|-----:|----------------------:|--------|
+| Text | 12 | 12 | Phase 1 complete |
+| JSON | 14 | 14 | Phase 1 complete |
+| Developer | 12 | 12 | Phase 1 complete |
+| Encoding | 10 | 10 | Phase 1 complete |
+| Security | 18 | 18 | Phase 2 complete |
+| SQL | 15 | 15 | Phase 2 complete |
+| CSV & Data | 24 | 24 | Phase 2 complete |
+| **Total** | **105** | **105** | **Phases 1 and 2 complete** |
 
 The current verified baseline is:
 
-- 63 automated tests passing across 10 test files
+- 95 automated tests passing across 15 test files
 - Zero TypeScript errors
 - Zero ESLint warnings or errors
-- 61 static pages and metadata routes generated successfully
+- 121 static pages and metadata routes generated successfully
 - Responsive system, light, and dark modes
 - Three selectable color palettes, font families, and text scales with local persistence
 - SEO metadata, canonical URLs, sitemap, and robots.txt
 
-Detailed implementation history and the current handoff point are maintained in [walkthrough.md](walkthrough.md). The complete Phase 1 product requirements are in [docs/Phase_1_Product_Specification_48_Tools.docx](docs/Phase_1_Product_Specification_48_Tools.docx).
+Detailed implementation history and the current handoff point are maintained in [walkthrough.md](walkthrough.md). Product requirements are in [docs/Phase_1_Product_Specification_48_Tools.docx](docs/Phase_1_Product_Specification_48_Tools.docx) and [docs/Phase_2_Product_Specification.docx](docs/Phase_2_Product_Specification.docx).
 
 ## Live Tools
 
@@ -90,13 +93,80 @@ Detailed implementation history and the current handoff point are maintained in 
 - Hex Encoder
 - Hex Decoder
 
+### Security tools — 18/18
+
+- Password Generator
+- Password Strength Checker
+- Hash Generator (MD5 and SHA family)
+- HMAC Generator
+- HMAC Validator
+- JWT Decoder
+- JWT Generator
+- JWT Validator
+- Fernet Key Generator
+- Fernet Encrypt
+- Fernet Decrypt
+- AES Encrypt / Decrypt
+- RSA Key Pair Generator
+- RSA Encrypt / Decrypt
+- RSA Sign / Verify
+- Secret / Token Generator
+- Random Bytes Generator
+- Checksum Generator
+
+### CSV & Data tools — 24/24
+
+- CSV Viewer
+- CSV Formatter
+- CSV Validator
+- CSV → JSON
+- JSON → CSV
+- CSV → TSV
+- TSV → CSV
+- CSV Column Extractor
+- CSV Column Remover
+- CSV Column Renamer
+- CSV Sorter
+- CSV Filter
+- CSV Deduplicator
+- CSV Merger
+- CSV Splitter
+- CSV Transpose
+- CSV Statistics
+- CSV → Markdown Table
+- JSONL Formatter
+- JSONL → JSON
+- JSON → JSONL
+- Delimited Text Converter
+- Data Cleaner
+- Column / Row Counter
+
+### SQL tools — 15/15
+
+- SQL Formatter
+- SQL Minifier
+- SQL Validator
+- SQL Beautifier
+- SQL → JSON
+- SQL → CSV
+- SQL → INSERT
+- INSERT → structured SQL data
+- SQL IN Clause Generator
+- SQL WHERE Clause Builder
+- SQL Table Generator
+- SQL UPDATE Generator
+- SQL DELETE Generator
+- SQL JOIN Generator
+- SQL Query Explainer (local deterministic structural explanation; no AI/backend or query execution)
+
 ## Product Features
 
 - **Private by design:** live transformations run client-side in the browser.
 - **Focused workspaces:** each utility has its own route, metadata, examples, instructions, FAQs, and related-tool links.
 - **Reusable actions:** tools share consistent sample, clear, copy, and download controls.
 - **Immediate feedback:** most outputs and statistics update as the input or options change.
-- **Responsive interface:** workspaces adapt from mobile layouts to dual-pane desktop layouts.
+- **Responsive interface:** workspaces adapt from mobile layouts to dual-pane desktop layouts; tabular data stays usable through contained horizontal scrolling.
+- **Shared Phase 2 foundations:** Security uses browser cryptography and local analysis; CSV, TSV, JSON, and JSONL tools share a normalized immutable table model; SQL tools share a tokenizer, formatter, structural validator, literal/identifier safety helpers, and generators.
 - **Configurable appearance:** system/light/dark modes, three palettes, three font families, and three text scales apply app-wide and persist on the device.
 - **Discoverability:** the app includes a searchable tools directory, category pages, structured page metadata, a sitemap, and robots.txt.
 - **Project transparency:** a dedicated, mobile-first About page introduces the project, developer, principles, support option, and forward roadmap.
@@ -171,6 +241,7 @@ If you are using the repository-local toolchain from the original workspace:
 | `pnpm typecheck` | Run TypeScript without emitting files |
 | `pnpm test` | Run all Vitest tests once |
 | `pnpm test:watch` | Run Vitest in watch mode |
+| `pnpm test:browser` | Smoke-test representative Security, SQL, and Data workspaces against a production build (requires Chrome) |
 | `pnpm lint` | Run Next.js linting after ESLint has been configured |
 
 Equivalent `npm run <script>` commands can be used when dependencies were installed with npm.
@@ -190,9 +261,9 @@ By default, the production server listens on port 3000. Standard Next.js environ
 |-------|---------|
 | `/` | Homepage and featured tools |
 | `/about` | Project story, developer profile, principles, roadmap, and support section |
-| `/tools` | Searchable directory of all Phase 1 tools |
+| `/tools` | Searchable directory of all live tools |
 | `/tools/[slug]` | Dedicated product and tool workspace page |
-| `/tools/category/[category]` | Text, JSON, Developer, or Encoding category page |
+| `/tools/category/[category]` | Text, JSON, Developer, Encoding, Security, SQL, or Data category page |
 | `/sitemap.xml` | Generated sitemap for public pages |
 | `/robots.txt` | Search crawler directives |
 
@@ -208,9 +279,9 @@ src/
 ├── config/                      # Appearance, site/profile links, and browser-safety limits
 └── lib/
     ├── engines/                 # Pure processing logic grouped by category
-    └── registry/                # 48-tool metadata and category registry
-tests/                           # Vitest unit tests for processing engines
-docs/                            # Phase 1 product specification
+    └── registry/                # Phase 1 and Phase 2 metadata/category registry
+tests/                           # Vitest unit tests and production browser smoke tests
+docs/                            # Phase 1 and Phase 2 product specifications
 walkthrough.md                   # Build history, verification, and handoff state
 ```
 
@@ -243,7 +314,7 @@ To preserve the current modular architecture:
 2. Add unit coverage under `tests/` for normal, edge, and invalid inputs.
 3. Build the workspace under `src/components/tools/<category>/` using the shared UI and tool action components.
 4. Register the workspace in `src/components/tools/ToolRenderer.tsx` using the existing slug from `src/lib/registry/tools.ts`.
-5. Run tests, type checking, and a production build.
+5. Run unit tests, type checking, linting, and a production build. Extend the browser smoke test when adding a new interaction family.
 6. Update `walkthrough.md` with the new current state.
 
 Avoid duplicating processing logic inside page components or creating a separate visual pattern for an individual tool.
@@ -257,15 +328,16 @@ pnpm lint
 pnpm test
 pnpm typecheck
 pnpm build
+pnpm test:browser
 ```
 
-The committed ESLint configuration extends Next.js Core Web Vitals, so linting runs unattended in local development and CI.
+Run `test:browser` after `build`; it starts the production server on port 3217 and requires Google Chrome at `/usr/bin/google-chrome` or a custom executable supplied through `CHROME_PATH`. The committed ESLint configuration extends Next.js Core Web Vitals, so linting runs unattended in local development and CI.
 
 The text-diff engine protects the browser from excessive quadratic work by limiting a comparison to 2,000,000 line-pair cells. The threshold is centralized in `src/config/limits.ts`; oversized input returns an actionable message asking the user to compare smaller sections.
 
 ## Privacy and Security
 
-The implemented tools use browser APIs and local JavaScript processing. Text, JSON, uploaded CSV files, and generated values are not intentionally sent to a DevBite backend. When adding dependencies or future tools, preserve this guarantee unless the product documentation and user-facing privacy messaging are explicitly updated.
+The implemented tools use browser APIs and local JavaScript processing. Text, SQL, JSON, uploaded CSV/JSONL files, passwords, secrets, keys, plaintext, hashes, and generated values are not intentionally sent to a DevBite backend. JWT Decoder never implies verification; JWT Validator supports only the explicitly offered HMAC algorithms. AES uses authenticated AES-GCM, RSA is limited to OAEP/PSS with SHA-256, and generated destructive SQL displays safeguards. Browser cryptography is suitable for development utilities but is not a substitute for production key management. When adding future tools, preserve these guarantees unless the product documentation and user-facing privacy messaging are explicitly updated.
 
 Do not commit secrets or local environment files. `.env*.local`, private keys, build output, dependencies, and the local toolchain are excluded by `.gitignore`.
 
@@ -278,11 +350,13 @@ Do not commit secrets or local environment files. `.env*.local`, private keys, b
 - **Step 6:** all 10 Encoding tools — complete
 - **Final Phase 1 acceptance pass:** registry integrity, linting, accessibility semantics, large-input protection, appearance configuration, and production verification — complete
 - **About/developer section:** project story, developer profile, principles, roadmap, support area, footer navigation, metadata, and sitemap integration — complete
-- **Phase 2:** Security, SQL, and CSV/Data tools — planned
+- **Phase 2 milestone 1:** Security/SQL/Data engine foundations, registry/navigation/SEO expansion, 5 Security tools, and 8 CSV/Data tools — complete
+- **Phase 2 completion:** all 18 Security, 15 SQL, and 24 CSV/Data workspaces, shared engines, tests, browser coverage, and responsive verification — complete
+- **Query Explainer:** implemented as a limited local deterministic structural explainer; it does not use AI, execute SQL, or inspect a database query plan
 - **Phase 3:** API, Image, PDF, File, Networking, and Generation tools — planned
 - **Phase 4:** Data Engineering, SEO, QR/Barcode, and Advanced tools — planned
 
-The Phase 1 specification remains the source of truth for tool scope and acceptance criteria. Any future tools or product features belong to a new phase and are intentionally outside the completed Phase 1 scope.
+The Phase 1 and Phase 2 specification documents remain the sources of truth for their respective tool scope and acceptance criteria.
 
 ## License
 

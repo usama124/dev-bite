@@ -191,6 +191,23 @@ const HexCodecTool = dynamic(
   { ssr: false }
 );
 
+// Phase 2 Security tools
+const PasswordGeneratorTool = dynamic(() => import("./security/PasswordGeneratorTool").then((m) => m.PasswordGeneratorTool), { ssr: false });
+const PasswordStrengthCheckerTool = dynamic(() => import("./security/PasswordStrengthCheckerTool").then((m) => m.PasswordStrengthCheckerTool), { ssr: false });
+const HashGeneratorTool = dynamic(() => import("./security/HashGeneratorTool").then((m) => m.HashGeneratorTool), { ssr: false });
+const JwtDecoderTool = dynamic(() => import("./security/JwtDecoderTool").then((m) => m.JwtDecoderTool), { ssr: false });
+const SecretTokenGeneratorTool = dynamic(() => import("./security/SecretTokenGeneratorTool").then((m) => m.SecretTokenGeneratorTool), { ssr: false });
+const SecurityAdvancedTool = dynamic(() => import("./security/SecurityAdvancedTool").then((m) => m.SecurityAdvancedTool), { ssr: false });
+
+// Phase 2 Data tools
+const CsvViewerTool = dynamic(() => import("./data/CsvViewerTool").then((m) => m.CsvViewerTool), { ssr: false });
+const CsvCoreTool = dynamic(() => import("./data/CsvCoreTool").then((m) => m.CsvCoreTool), { ssr: false });
+const JsonlTool = dynamic(() => import("./data/JsonlTool").then((m) => m.JsonlTool), { ssr: false });
+const DataTransformTool = dynamic(() => import("./data/DataTransformTool").then((m) => m.DataTransformTool), { ssr: false });
+
+// Phase 2 SQL tools
+const SqlTool = dynamic(() => import("./sql/SqlTool").then((m) => m.SqlTool), { ssr: false });
+
 interface ToolRendererProps {
   tool: Tool;
 }
@@ -300,6 +317,95 @@ export function ToolRenderer({ tool }: ToolRendererProps) {
       return <HexCodecTool operation="encode" />;
     case "hex-decoder":
       return <HexCodecTool operation="decode" />;
+
+    // Phase 2 Security (18 tools)
+    case "password-generator":
+      return <PasswordGeneratorTool />;
+    case "password-strength-checker":
+      return <PasswordStrengthCheckerTool />;
+    case "hash-generator":
+      return <HashGeneratorTool />;
+    case "jwt-decoder":
+      return <JwtDecoderTool />;
+    case "secret-token-generator":
+      return <SecretTokenGeneratorTool />;
+    case "hmac-generator":
+      return <SecurityAdvancedTool mode="hmac-generate" />;
+    case "hmac-validator":
+      return <SecurityAdvancedTool mode="hmac-validate" />;
+    case "jwt-generator":
+      return <SecurityAdvancedTool mode="jwt-generate" />;
+    case "jwt-validator":
+      return <SecurityAdvancedTool mode="jwt-validate" />;
+    case "fernet-key-generator":
+      return <SecurityAdvancedTool mode="fernet-key" />;
+    case "fernet-encrypt":
+      return <SecurityAdvancedTool mode="fernet-encrypt" />;
+    case "fernet-decrypt":
+      return <SecurityAdvancedTool mode="fernet-decrypt" />;
+    case "aes-encrypt-decrypt":
+      return <SecurityAdvancedTool mode="aes" />;
+    case "rsa-key-pair-generator":
+      return <SecurityAdvancedTool mode="rsa-key" />;
+    case "rsa-encrypt-decrypt":
+      return <SecurityAdvancedTool mode="rsa-crypt" />;
+    case "rsa-sign-verify":
+      return <SecurityAdvancedTool mode="rsa-sign" />;
+    case "random-bytes-generator":
+      return <SecurityAdvancedTool mode="random-bytes" />;
+    case "checksum-generator":
+      return <SecurityAdvancedTool mode="checksum" />;
+
+    // Phase 2 SQL (15 tools)
+    case "sql-formatter": return <SqlTool mode="format" />;
+    case "sql-minifier": return <SqlTool mode="minify" />;
+    case "sql-validator": return <SqlTool mode="validate" />;
+    case "sql-beautifier": return <SqlTool mode="beautify" />;
+    case "sql-to-json": return <SqlTool mode="to-json" />;
+    case "sql-to-csv": return <SqlTool mode="to-csv" />;
+    case "sql-to-insert": return <SqlTool mode="to-insert" />;
+    case "insert-to-sql": return <SqlTool mode="insert-parse" />;
+    case "sql-in-clause-generator": return <SqlTool mode="in-clause" />;
+    case "sql-where-clause-builder": return <SqlTool mode="where" />;
+    case "sql-table-generator": return <SqlTool mode="table" />;
+    case "sql-update-generator": return <SqlTool mode="update" />;
+    case "sql-delete-generator": return <SqlTool mode="delete" />;
+    case "sql-join-generator": return <SqlTool mode="join" />;
+    case "sql-query-explainer": return <SqlTool mode="explain" />;
+
+    // Phase 2 Data (24 tools)
+    case "csv-viewer":
+      return <CsvViewerTool />;
+    case "csv-formatter":
+      return <CsvCoreTool mode="format" />;
+    case "csv-validator":
+      return <CsvCoreTool mode="validate" />;
+    case "data-csv-to-json":
+      return <CsvCoreTool mode="csv-to-json" />;
+    case "data-json-to-csv":
+      return <CsvCoreTool mode="json-to-csv" />;
+    case "jsonl-formatter":
+      return <JsonlTool mode="format" />;
+    case "jsonl-to-json":
+      return <JsonlTool mode="jsonl-to-json" />;
+    case "json-to-jsonl":
+      return <JsonlTool mode="json-to-jsonl" />;
+    case "csv-to-tsv": return <DataTransformTool mode="csv-to-tsv" />;
+    case "tsv-to-csv": return <DataTransformTool mode="tsv-to-csv" />;
+    case "csv-column-extractor": return <DataTransformTool mode="extract" />;
+    case "csv-column-remover": return <DataTransformTool mode="remove" />;
+    case "csv-column-renamer": return <DataTransformTool mode="rename" />;
+    case "csv-sorter": return <DataTransformTool mode="sort" />;
+    case "csv-filter": return <DataTransformTool mode="filter" />;
+    case "csv-deduplicator": return <DataTransformTool mode="deduplicate" />;
+    case "csv-merger": return <DataTransformTool mode="merge" />;
+    case "csv-splitter": return <DataTransformTool mode="split" />;
+    case "csv-transpose": return <DataTransformTool mode="transpose" />;
+    case "csv-statistics": return <DataTransformTool mode="statistics" />;
+    case "csv-to-markdown-table": return <DataTransformTool mode="markdown" />;
+    case "delimited-text-converter": return <DataTransformTool mode="delimiter" />;
+    case "data-cleaner": return <DataTransformTool mode="clean" />;
+    case "column-row-counter": return <DataTransformTool mode="count" />;
 
     // Registry fallback for future additions
     default:

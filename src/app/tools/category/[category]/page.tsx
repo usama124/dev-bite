@@ -9,7 +9,7 @@ import {
 } from "@/lib/registry";
 import { ToolCard } from "@/components/shared/ToolCard";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
-import { Type, Braces, Code2, Binary, ArrowRight } from "lucide-react";
+import { Type, Braces, Code2, Binary, ArrowRight, ShieldCheck, Database, Table2 } from "lucide-react";
 
 interface CategoryPageProps {
   params: {
@@ -67,6 +67,9 @@ export default function CategoryPage({ params }: CategoryPageProps) {
     json: Braces,
     developer: Code2,
     encoding: Binary,
+    security: ShieldCheck,
+    sql: Database,
+    data: Table2,
   };
 
   const Icon = categoryIcons[categoryMeta.id];
@@ -125,7 +128,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
         <h2 className="text-lg font-bold text-foreground">
           Explore Other Categories
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {otherCategories.map((other) => {
             const OtherIcon = categoryIcons[other.id];
             return (

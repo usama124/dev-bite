@@ -14,6 +14,9 @@ export function ToolCard({ tool }: ToolCardProps) {
     json: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
     developer: "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20",
     encoding: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
+    security: "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20",
+    sql: "bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-500/20",
+    data: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20",
   };
 
   return (

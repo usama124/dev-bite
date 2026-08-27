@@ -43,7 +43,7 @@ export function ToolsDirectoryClient() {
           All Developer Tools ({allTools.length})
         </h1>
         <p className="text-sm sm:text-base text-muted-foreground max-w-2xl leading-relaxed">
-          Browse our complete catalog of fast, free, client-side developer utility tools across Text, JSON, Developer, and Encoding categories.
+          Browse the complete Phase 1 and Phase 2 catalog of fast, free, client-side utilities across seven focused categories.
         </p>
       </div>
 
@@ -52,6 +52,8 @@ export function ToolsDirectoryClient() {
         {/* Category Tabs */}
         <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto p-1 rounded-xl bg-muted/40 border border-border/50">
           <button
+            type="button"
+            aria-pressed={selectedCategory === "all"}
             onClick={() => setSelectedCategory("all")}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
               selectedCategory === "all"
@@ -63,6 +65,8 @@ export function ToolsDirectoryClient() {
           </button>
           {CATEGORY_LIST.map((cat) => (
             <button
+              type="button"
+              aria-pressed={selectedCategory === cat.id}
               key={cat.id}
               onClick={() => setSelectedCategory(cat.id)}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${

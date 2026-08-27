@@ -1,6 +1,7 @@
 import { Tool } from "./types";
+import { PHASE2_TOOLS } from "./phase2-tools";
 
-export const TOOLS: Tool[] = [
+const PHASE1_TOOLS: Tool[] = [
   {
     "id": "T01",
     "slug": "word-counter",
@@ -3314,6 +3315,8 @@ export const TOOLS: Tool[] = [
     "status": "active"
   }
 ];
+
+export const TOOLS: Tool[] = [...PHASE1_TOOLS, ...PHASE2_TOOLS];
 
 export const TOOLS_BY_ID: Record<string, Tool> = Object.fromEntries(
   TOOLS.map((tool) => [tool.id, tool])

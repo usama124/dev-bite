@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Search, X, Command, ArrowRight, CornerDownLeft, Sparkles } from "lucide-react";
 import { getAllTools, Tool, ToolCategory } from "@/lib/registry";
 import { Badge } from "@/components/ui/badge";
+import { CATEGORY_LIST } from "@/lib/registry/categories";
 
 interface CommandSearchProps {
   isOpen: boolean;
@@ -108,11 +109,12 @@ export function CommandSearch({ isOpen, onClose }: CommandSearchProps) {
               setQuery(e.target.value);
               setSelectedIndex(0);
             }}
-            placeholder="Search all 48 tools... (e.g. Word Counter, JSON Formatter, UUID, Base64)"
+            placeholder={`Search all ${allTools.length} tools...`}
             className="w-full bg-transparent text-sm sm:text-base placeholder:text-muted-foreground/70 focus:outline-none"
           />
           {query ? (
             <button
+              type="button"
               onClick={() => setQuery("")}
               className="p-1 text-muted-foreground hover:text-foreground rounded-md"
             >
@@ -127,8 +129,10 @@ export function CommandSearch({ isOpen, onClose }: CommandSearchProps) {
 
         {/* Category filter tabs */}
         <div className="flex items-center gap-1.5 px-4 py-2 border-b border-border/40 overflow-x-auto text-xs bg-muted/20">
-          {["all", "text", "json", "developer", "encoding"].map((cat) => (
+          {["all", ...CATEGORY_LIST.map((category) => category.id)].map((cat) => (
             <button
+              type="button"
+              aria-pressed={selectedCategory === cat}
               key={cat}
               onClick={() => {
                 setSelectedCategory(cat);
@@ -140,7 +144,7 @@ export function CommandSearch({ isOpen, onClose }: CommandSearchProps) {
                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
               }`}
             >
-              {cat === "all" ? "All Tools (48)" : cat}
+              {cat === "all" ? `All Tools (${allTools.length})` : cat}
             </button>
           ))}
         </div>
@@ -177,6 +181,12 @@ export function CommandSearch({ isOpen, onClose }: CommandSearchProps) {
                           ? "bg-amber-500/10 text-amber-600 dark:text-amber-400"
                           : tool.category === "developer"
                           ? "bg-primary/10 text-primary"
+                          : tool.category === "security"
+                          ? "bg-rose-500/10 text-rose-600 dark:text-rose-400"
+                          : tool.category === "sql"
+                          ? "bg-violet-500/10 text-violet-600 dark:text-violet-400"
+                          : tool.category === "data"
+                          ? "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400"
                           : "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
                       }`}
                     >

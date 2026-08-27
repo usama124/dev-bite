@@ -1,11 +1,12 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
 import { CATEGORY_LIST, TOOLS } from "../src/lib/registry";
 
-describe("Phase 1 registry integrity", () => {
-  it("contains exactly 48 uniquely addressable tools", () => {
-    expect(TOOLS).toHaveLength(48);
-    expect(new Set(TOOLS.map((tool) => tool.id)).size).toBe(48);
-    expect(new Set(TOOLS.map((tool) => tool.slug)).size).toBe(48);
+describe("tool registry integrity", () => {
+  it("contains 48 Phase 1 and 57 Phase 2 tools with unique addresses", () => {
+    expect(TOOLS).toHaveLength(105);
+    expect(new Set(TOOLS.map((tool) => tool.id)).size).toBe(105);
+    expect(new Set(TOOLS.map((tool) => tool.slug)).size).toBe(105);
     TOOLS.forEach((tool) => expect(tool.slug).toMatch(/^[a-z0-9]+(?:-[a-z0-9]+)*$/));
   });
 
@@ -34,7 +35,12 @@ describe("Phase 1 registry integrity", () => {
     const ids = new Set(TOOLS.map((tool) => tool.id));
     TOOLS.forEach((tool) => {
       expect(tool.relatedToolIds).not.toContain(tool.id);
-      tool.relatedToolIds.forEach((id) => expect(ids.has(id)).toBe(true));
+      tool.relatedToolIds.forEach((id) => expect(ids.has(id), `${tool.id} references missing ${id}`).toBe(true));
     });
+  });
+
+  it("wires every active tool slug to an interactive renderer case", () => {
+    const renderer = readFileSync(new URL("../src/components/tools/ToolRenderer.tsx", import.meta.url), "utf8");
+    TOOLS.forEach((tool) => expect(renderer, `${tool.slug} is not wired`).toContain(`case "${tool.slug}"`));
   });
 });

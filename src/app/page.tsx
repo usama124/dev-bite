@@ -15,6 +15,9 @@ import {
   Code2,
   Binary,
   Command,
+  ShieldCheck as SecurityIcon,
+  Database,
+  Table2,
 } from "lucide-react";
 import { CATEGORY_LIST } from "@/lib/registry/categories";
 import { getPopularTools, getAllTools } from "@/lib/registry";
@@ -33,6 +36,9 @@ export default function HomePage() {
     json: Braces,
     developer: Code2,
     encoding: Binary,
+    security: SecurityIcon,
+    sql: Database,
+    data: Table2,
   };
 
   const featureCards = [
@@ -85,7 +91,7 @@ export default function HomePage() {
               <div className="flex items-center gap-3">
                 <Search className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
                 <span className="text-sm font-medium">
-                  Search all 48 tools... (e.g. JSON Formatter, Word Counter, UUID)
+                  Search all {allTools.length} tools... (e.g. JSON, CSV, passwords)
                 </span>
               </div>
               <kbd className="hidden sm:inline-flex items-center gap-1 font-mono text-xs bg-muted/80 px-2 py-1 rounded-md border border-border/80 text-muted-foreground">
@@ -106,7 +112,7 @@ export default function HomePage() {
               href="/tools"
               className="text-xs font-semibold text-primary hover:underline flex items-center gap-1"
             >
-              View All 48 Tools <ArrowRight className="h-3 w-3" />
+              View All {allTools.length} Tools <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
 

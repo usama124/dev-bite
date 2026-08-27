@@ -14,6 +14,9 @@ import {
   X,
   Command,
   UserRound,
+  ShieldCheck,
+  Database,
+  Table2,
 } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { CommandSearch } from "./CommandSearch";
@@ -41,6 +44,9 @@ export function Navbar() {
     { label: "JSON", href: "/tools/category/json", icon: Braces },
     { label: "Developer", href: "/tools/category/developer", icon: Code2 },
     { label: "Encoding", href: "/tools/category/encoding", icon: Binary },
+    { label: "Security", href: "/tools/category/security", icon: ShieldCheck },
+    { label: "SQL", href: "/tools/category/sql", icon: Database },
+    { label: "Data", href: "/tools/category/data", icon: Table2 },
     { label: "About", href: "/about", icon: UserRound },
   ];
 
@@ -68,7 +74,7 @@ export function Navbar() {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-1 text-sm font-medium">
+            <nav className="hidden xl:flex items-center gap-0.5 text-xs font-medium 2xl:text-sm">
               {navLinks.map((link) => {
                 const Icon = link.icon;
                 const isActive = pathname === link.href;
@@ -113,7 +119,7 @@ export function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="h-9 w-9 rounded-lg lg:hidden"
+              className="h-9 w-9 rounded-lg xl:hidden"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle mobile menu"
             >
@@ -124,7 +130,7 @@ export function Navbar() {
 
         {/* Mobile Dropdown Menu */}
         {isMobileMenuOpen && (
-          <div className="space-y-1 border-b border-border/60 bg-background/95 px-4 py-3 backdrop-blur-2xl animate-fade-in lg:hidden">
+          <div className="space-y-1 border-b border-border/60 bg-background/95 px-4 py-3 backdrop-blur-2xl animate-fade-in xl:hidden">
             {navLinks.map((link) => {
               const Icon = link.icon;
               const isActive = pathname === link.href;

@@ -1,4 +1,11 @@
-export type ToolCategory = "text" | "json" | "developer" | "encoding";
+export type ToolCategory =
+  | "text"
+  | "json"
+  | "developer"
+  | "encoding"
+  | "security"
+  | "sql"
+  | "data";
 
 export type ToolPriority = "P0" | "P1" | "P2";
 
