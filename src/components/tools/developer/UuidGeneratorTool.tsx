@@ -24,7 +24,7 @@ export function UuidGeneratorTool() {
 
   // Generator states
   const [version, setVersion] = useState<UuidVersion>("v4");
-  const [quantity, setQuantity] = useState<number>(5);
+  const [quantity, setQuantity] = useState<number>(1);
   const [uppercase, setUppercase] = useState(false);
   const [hyphens, setHyphens] = useState(true);
   const [format, setFormat] = useState<UuidFormat>("plain");
