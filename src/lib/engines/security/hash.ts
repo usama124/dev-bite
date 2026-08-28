@@ -34,8 +34,11 @@ function md5(bytes: Uint8Array): string {
 }
 
 export async function hashText(input: string, algorithm: HashAlgorithm): Promise<string> {
-  const bytes = new TextEncoder().encode(input);
+  return hashBytes(new TextEncoder().encode(input), algorithm);
+}
+
+export async function hashBytes(bytes: Uint8Array, algorithm: HashAlgorithm): Promise<string> {
   if (algorithm === "MD5") return md5(bytes);
-  const digest = await crypto.subtle.digest(algorithm, bytes);
+  const digest = await crypto.subtle.digest(algorithm, Uint8Array.from(bytes).buffer);
   return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
 }

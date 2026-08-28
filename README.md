@@ -21,7 +21,7 @@ DevBite contains **105 fully interactive tool pages**. Phase 1 is complete with 
 
 The current verified baseline is:
 
-- 95 automated tests passing across 15 test files
+- 98 automated tests passing across 15 test files
 - Zero TypeScript errors
 - Zero ESLint warnings or errors
 - 121 static pages and metadata routes generated successfully
@@ -166,7 +166,10 @@ Detailed implementation history and the current handoff point are maintained in 
 - **Reusable actions:** tools share consistent sample, clear, copy, and download controls.
 - **Immediate feedback:** most outputs and statistics update as the input or options change.
 - **Responsive interface:** workspaces adapt from mobile layouts to dual-pane desktop layouts; tabular data stays usable through contained horizontal scrolling.
-- **Shared Phase 2 foundations:** Security uses browser cryptography and local analysis; CSV, TSV, JSON, and JSONL tools share a normalized immutable table model; SQL tools share a tokenizer, formatter, structural validator, literal/identifier safety helpers, and generators.
+- **Shared Phase 2 foundations:** Security uses browser cryptography and local analysis; CSV, TSV, JSON, and JSONL tools share a normalized immutable table model with progressive parsing; SQL tools share a tokenizer, formatter, scoped structural validator, literal/identifier safety helpers, and safeguarded generators.
+- **Large-data safeguards:** local delimited files are streamed, long parses yield between chunks with visible progress, grid rendering is paginated, and configurable 20 MB/20-million-character caps protect the browser.
+- **Data workflow depth:** delimiter tools accept comma, tab, semicolon, pipe, or one-character custom delimiters; CSV merge accepts multiple local files; CSV split supports rows per file or an exact file count.
+- **Destructive SQL safeguards:** UPDATE and DELETE generators require structured WHERE conditions; validation separately warns when pasted UPDATE/DELETE statements are unrestricted.
 - **Configurable appearance:** system/light/dark modes, three palettes, three font families, and three text scales apply app-wide and persist on the device.
 - **Discoverability:** the app includes a searchable tools directory, category pages, structured page metadata, a sitemap, and robots.txt.
 - **Project transparency:** a dedicated, mobile-first About page introduces the project, developer, principles, support option, and forward roadmap.
@@ -241,7 +244,7 @@ If you are using the repository-local toolchain from the original workspace:
 | `pnpm typecheck` | Run TypeScript without emitting files |
 | `pnpm test` | Run all Vitest tests once |
 | `pnpm test:watch` | Run Vitest in watch mode |
-| `pnpm test:browser` | Smoke-test representative Security, SQL, and Data workspaces against a production build (requires Chrome) |
+| `pnpm test:browser` | Render-smoke and interact with representative Security, SQL, and Data workspaces against a production build (requires Chrome) |
 | `pnpm lint` | Run Next.js linting after ESLint has been configured |
 
 Equivalent `npm run <script>` commands can be used when dependencies were installed with npm.
@@ -280,7 +283,7 @@ src/
 └── lib/
     ├── engines/                 # Pure processing logic grouped by category
     └── registry/                # Phase 1 and Phase 2 metadata/category registry
-tests/                           # Vitest unit tests and production browser smoke tests
+tests/                           # Vitest unit tests plus production browser render and interaction tests
 docs/                            # Phase 1 and Phase 2 product specifications
 walkthrough.md                   # Build history, verification, and handoff state
 ```
@@ -331,7 +334,7 @@ pnpm build
 pnpm test:browser
 ```
 
-Run `test:browser` after `build`; it starts the production server on port 3217 and requires Google Chrome at `/usr/bin/google-chrome` or a custom executable supplied through `CHROME_PATH`. The committed ESLint configuration extends Next.js Core Web Vitals, so linting runs unattended in local development and CI.
+Run `test:browser` after `build`; its isolated render and interaction suites start production servers on ports 3217 and 3219 and require Google Chrome at `/usr/bin/google-chrome` or a custom executable supplied through `CHROME_PATH`. The interaction suite operates HMAC, guarded UPDATE, custom-delimiter, and exact-file-count splitter workflows and checks representative pages at a 390px mobile viewport. The committed ESLint configuration extends Next.js Core Web Vitals, so linting runs unattended in local development and CI.
 
 The text-diff engine protects the browser from excessive quadratic work by limiting a comparison to 2,000,000 line-pair cells. The threshold is centralized in `src/config/limits.ts`; oversized input returns an actionable message asking the user to compare smaller sections.
 
@@ -351,7 +354,7 @@ Do not commit secrets or local environment files. `.env*.local`, private keys, b
 - **Final Phase 1 acceptance pass:** registry integrity, linting, accessibility semantics, large-input protection, appearance configuration, and production verification — complete
 - **About/developer section:** project story, developer profile, principles, roadmap, support area, footer navigation, metadata, and sitemap integration — complete
 - **Phase 2 milestone 1:** Security/SQL/Data engine foundations, registry/navigation/SEO expansion, 5 Security tools, and 8 CSV/Data tools — complete
-- **Phase 2 completion:** all 18 Security, 15 SQL, and 24 CSV/Data workspaces, shared engines, tests, browser coverage, and responsive verification — complete
+- **Phase 2 specification and production acceptance:** all 18 Security, 15 SQL, and 24 CSV/Data workspaces; binary/text checksums; scoped SQL validation and destructive-query safeguards; custom delimiters; multi-file merge; both splitter modes; progressive large-data handling; unit tests; production browser interactions; and responsive verification — complete
 - **Query Explainer:** implemented as a limited local deterministic structural explainer; it does not use AI, execute SQL, or inspect a database query plan
 - **Phase 3:** API, Image, PDF, File, Networking, and Generation tools — planned
 - **Phase 4:** Data Engineering, SEO, QR/Barcode, and Advanced tools — planned

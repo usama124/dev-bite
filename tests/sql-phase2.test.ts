@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { explainSql, formatSql, generateCreateTable, generateInClause, generateWhere, minifySql, parseInsert, tableToInsert, tokenizeSql, validateSql } from "../src/lib/engines/sql";
+import { explainSql, formatSql, generateCreateTable, generateDelete, generateInClause, generateUpdate, generateWhere, minifySql, parseInsert, parseSqlStatements, tableToInsert, tokenizeSql, validateSql } from "../src/lib/engines/sql";
 
 describe("Phase 2 SQL engine", () => {
   it("tokenizes quoted strings/comments and minifies without changing their contents", () => {
@@ -28,6 +28,24 @@ describe("Phase 2 SQL engine", () => {
     expect(generateWhere([{ column: "age", operator: ">=", value: "18" }], "mysql")).toContain("`age` >= 18");
     expect(generateCreateTable("users", [{ name: "id", type: "INTEGER", primary: true }], "sqlite")).toContain("PRIMARY KEY");
     expect(() => generateCreateTable("users", [{ name: "id", type: "DROP TABLE" }])).toThrow(/Unsupported type/);
+  });
+
+  it("requires scoped conditions for destructive statement generators", () => {
+    expect(() => generateUpdate("users", [{ column: "active", value: "false" }], [])).toThrow(/WHERE condition is required/);
+    expect(() => generateDelete("users", [])).toThrow(/WHERE condition is required/);
+    expect(generateUpdate("users", [{ column: "active", value: "false" }], [{ column: "id", operator: "=", value: "42" }], "postgresql")).toBe('UPDATE "users" SET "active" = FALSE WHERE "id" = 42;');
+    expect(generateDelete("users", [{ column: "id", operator: "=", value: "42" }], "mysql")).toBe("DELETE FROM `users` WHERE `id` = 42;");
+  });
+
+  it("parses multiple statements and reports dialect and destructive-query risks", () => {
+    expect(parseSqlStatements("SELECT 1; DELETE FROM users;").map((statement) => statement.kind)).toEqual(["SELECT", "DELETE"]);
+    expect(validateSql("UPDATE users SET active = false", "postgresql").warnings).toContain("Statement 1: UPDATE has no WHERE clause and may affect every row.");
+    expect(validateSql("SELECT `id` FROM users", "postgresql").valid).toBe(false);
+    expect(validateSql("SELECT id FROM users LIMIT 1", "sql-server").diagnostics.join(" ")).toMatch(/LIMIT is not supported/);
+    expect(validateSql("SELECT 1;", "postgresql").valid).toBe(true);
+    expect(validateSql("SELECT FROM users", "postgresql").valid).toBe(false);
+    expect(validateSql("UPDATE users SET active", "postgresql").valid).toBe(false);
+    expect(validateSql("DELETE FROM;", "postgresql").valid).toBe(false);
   });
 
   it("explains query structure without claiming execution or AI", () => {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { webcrypto } from "node:crypto";
-import { aesDecrypt, aesEncrypt, checksum, fernetDecrypt, fernetEncrypt, generateAesKey, generateFernetKeys, generateHmac, generateJwt, generateRsaKeyPair, generateRsaSigningKeyPair, randomBytesOutput, rsaDecrypt, rsaEncrypt, rsaSign, rsaVerify, validateHmac, validateJwt } from "../src/lib/engines/security";
+import { createHash, webcrypto } from "node:crypto";
+import { aesDecrypt, aesEncrypt, checksum, checksumBytes, fernetDecrypt, fernetEncrypt, generateAesKey, generateFernetKeys, generateHmac, generateJwt, generateRsaKeyPair, generateRsaSigningKeyPair, randomBytesOutput, rsaDecrypt, rsaEncrypt, rsaSign, rsaVerify, validateHmac, validateJwt } from "../src/lib/engines/security";
 
 Object.defineProperty(globalThis, "crypto", { value: webcrypto, configurable: true });
 
@@ -47,5 +47,7 @@ describe("Phase 2 advanced security engine", () => {
   it("generates exact random-byte output lengths and known checksums", async () => {
     expect(randomBytesOutput(16, "hex")).toMatch(/^[0-9a-f]{32}$/);
     expect(await checksum("123456789", "CRC32")).toBe("cbf43926");
+    const binary = new Uint8Array([0, 255, 1, 128, 42]);
+    expect(await checksumBytes(binary, "MD5")).toBe(createHash("md5").update(binary).digest("hex"));
   });
 });

@@ -1,5 +1,5 @@
 import { decodeJwt } from "./jwt";
-import { hashText } from "./hash";
+import { hashBytes, hashText } from "./hash";
 import { formatSecret, secureRandomBytes } from "./random";
 
 export type HmacAlgorithm = "SHA-256" | "SHA-384" | "SHA-512";
@@ -84,6 +84,6 @@ export async function rsaVerify(message: string, signature: string, publicPem: s
 
 export function crc32(input: string | Uint8Array) { const bytes = typeof input === "string" ? encoder.encode(input) : input; let crc = 0xffffffff; bytes.forEach((byte) => { crc ^= byte; for (let bit = 0; bit < 8; bit++) crc = (crc >>> 1) ^ (crc & 1 ? 0xedb88320 : 0); }); return ((crc ^ 0xffffffff) >>> 0).toString(16).padStart(8, "0"); }
 export async function checksum(input: string, algorithm: "CRC32" | "MD5" | "SHA-1" | "SHA-256" | "SHA-384" | "SHA-512") { return algorithm === "CRC32" ? crc32(input) : hashText(input, algorithm); }
-export async function checksumBytes(input: Uint8Array, algorithm: "CRC32" | "MD5" | "SHA-1" | "SHA-256" | "SHA-384" | "SHA-512") { if (algorithm === "CRC32") return crc32(input); if (algorithm === "MD5") throw new Error("Binary-file MD5 is not enabled. Choose CRC32 or a SHA algorithm, or hash text input with MD5."); return bytesToHex(new Uint8Array(await crypto.subtle.digest(algorithm, asBuffer(input)))); }
+export async function checksumBytes(input: Uint8Array, algorithm: "CRC32" | "MD5" | "SHA-1" | "SHA-256" | "SHA-384" | "SHA-512") { return algorithm === "CRC32" ? crc32(input) : hashBytes(input, algorithm); }
 export function randomBytesOutput(length: number, encoding: OutputEncoding) { return encodeOutput(secureRandomBytes(length), encoding); }
 export function generateAesKey(bytes: 16 | 24 | 32 = 32) { return formatSecret(secureRandomBytes(bytes), "base64url"); }

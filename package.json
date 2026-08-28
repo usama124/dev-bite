@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:browser": "node tests/browser/phase2-smoke.mjs"
+    "test:browser": "node tests/browser/phase2-smoke.mjs && node tests/browser/phase2-interactions.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",
