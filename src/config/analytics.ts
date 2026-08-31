@@ -12,5 +12,6 @@ export function normalizeGoogleAnalyticsId(value: string | undefined) {
  * public browser configuration, so Next.js must expose this value to the client.
  */
 export const GOOGLE_ANALYTICS_ID = normalizeGoogleAnalyticsId(
-  process.env.GOOGLE_ANALYTICS_ID
+  process.env.GOOGLE_ANALYTICS_ID ??
+    process.env.GOOGLE_ANALYTICS_ID
 );
