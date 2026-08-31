@@ -15,7 +15,7 @@ import { ErrorMessage } from "../shared/ErrorMessage";
 
 type RegexMode = "test" | "replace" | "extract";
 const SAMPLE_PATTERN = "([\\w.+-]+)@([\\w.-]+\\.[A-Za-z]{2,})";
-const SAMPLE_TEXT = "Contact alice@example.com or support@devbite.tools for help.";
+const SAMPLE_TEXT = "Contact alice@example.com or support@devbite.dev for help.";
 
 export function RegexTool({ mode }: { mode: RegexMode }) {
   const [pattern, setPattern] = useState(SAMPLE_PATTERN);

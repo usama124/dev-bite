@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getAllTools, getToolBySlug, getRelatedTools } from "@/lib/registry";
 import { ToolPageLayout } from "@/components/shared/ToolPageLayout";
 import { ToolRenderer } from "@/components/tools/ToolRenderer";
+import { SITE_CONFIG } from "@/config/site";
 
 interface ToolPageProps {
   params: {
@@ -27,7 +28,7 @@ export async function generateMetadata({
     };
   }
 
-  const canonicalUrl = `https://devbite.tools/tools/${tool.slug}`;
+  const canonicalUrl = `${SITE_CONFIG.url}/tools/${tool.slug}`;
 
   return {
     title: tool.seoTitle,

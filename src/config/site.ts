@@ -1,6 +1,6 @@
 export const SITE_CONFIG = {
   name: "DevBite",
-  url: "https://devbite.tools",
+  url: "https://devbite.dev",
   developer: {
     name: "Usama Tahir",
     role: "Software Engineer & Backend Developer",
@@ -32,6 +32,8 @@ export const SITE_CONFIG = {
     buyMeACoffee: null as string | null,
   },
 } as const;
+
+export const SITE_URL = SITE_CONFIG.url;
 
 export const FOOTER_LINKS = [
   { label: "About", href: "/about" },

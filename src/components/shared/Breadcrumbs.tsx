@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { ChevronRight, Home } from "lucide-react";
+import { SITE_CONFIG } from "@/config/site";
 
 export interface BreadcrumbItem {
   label: string;
@@ -21,13 +22,13 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://devbite.tools",
+        item: SITE_CONFIG.url,
       },
       ...items.map((item, index) => ({
         "@type": "ListItem",
         position: index + 2,
         name: item.label,
-        item: item.href ? `https://devbite.tools${item.href}` : undefined,
+        item: item.href ? `${SITE_CONFIG.url}${item.href}` : undefined,
       })),
     ],
   };

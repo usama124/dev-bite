@@ -4,9 +4,10 @@ import { ThemeProvider } from "@/components/shared/ThemeProvider";
 import { Navbar } from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/Footer";
 import { getAppearanceBootstrapScript } from "@/config/appearance";
+import { SITE_CONFIG } from "@/config/site";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://devbite.tools"),
+  metadataBase: new URL(SITE_CONFIG.url),
   title: {
     default: "DevBite — Free, Fast & Private Online Developer Tools",
     template: "%s | DevBite",
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
   description:
     "Free, instant, privacy-first developer utility tools. Format JSON, count words, generate UUIDs, encode Base64, and more. 100% client-side in your browser.",
   alternates: {
-    canonical: "https://devbite.tools",
+    canonical: SITE_CONFIG.url,
   },
   keywords: [
     "developer tools",
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://devbite.tools",
+    url: SITE_CONFIG.url,
     title: "DevBite — Free, Fast & Private Online Developer Tools",
     description:
       "Free, instant, privacy-first developer utility tools. 100% processed locally in your browser.",

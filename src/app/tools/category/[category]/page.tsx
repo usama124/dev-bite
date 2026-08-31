@@ -10,6 +10,7 @@ import {
 import { ToolCard } from "@/components/shared/ToolCard";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { Type, Braces, Code2, Binary, ArrowRight, ShieldCheck, Database, Table2 } from "lucide-react";
+import { SITE_CONFIG } from "@/config/site";
 
 interface CategoryPageProps {
   params: {
@@ -34,7 +35,7 @@ export async function generateMetadata({
     };
   }
 
-  const canonicalUrl = `https://devbite.tools/tools/category/${cat.slug}`;
+  const canonicalUrl = `${SITE_CONFIG.url}/tools/category/${cat.slug}`;
 
   return {
     title: `${cat.name} — Free Online Developer Tools`,

@@ -6,6 +6,7 @@ import { AdSlot } from "./AdSlot";
 import { HowToUseSection } from "./HowToUseSection";
 import { FAQSection } from "./FAQSection";
 import { RelatedTools } from "./RelatedTools";
+import { SITE_CONFIG } from "@/config/site";
 
 interface ToolPageLayoutProps {
   tool: Tool;
@@ -20,7 +21,7 @@ export function ToolPageLayout({ tool, relatedTools, children }: ToolPageLayoutP
     "@type": "WebApplication",
     name: tool.name,
     description: tool.description,
-    url: `https://devbite.tools/tools/${tool.slug}`,
+    url: `${SITE_CONFIG.url}/tools/${tool.slug}`,
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Any",
     offers: {

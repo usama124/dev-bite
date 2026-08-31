@@ -12,8 +12,8 @@ import { ClearButton } from "../shared/ClearButton";
 import { SampleButton } from "../shared/SampleButton";
 import { ErrorMessage } from "../shared/ErrorMessage";
 
-const PLAIN_SAMPLE = "https://devbite.tools/search?q=JSON tools&language=日本語#results";
-const ENCODED_SAMPLE = "https://devbite.tools/search?q=JSON%20tools&language=%E6%97%A5%E6%9C%AC%E8%AA%9E#results";
+const PLAIN_SAMPLE = "https://devbite.dev/search?q=JSON tools&language=日本語#results";
+const ENCODED_SAMPLE = "https://devbite.dev/search?q=JSON%20tools&language=%E6%97%A5%E6%9C%AC%E8%AA%9E#results";
 
 export function UrlCodecTool({ operation }: { operation: "encode" | "decode" }) {
   const [input, setInput] = useState(operation === "encode" ? PLAIN_SAMPLE : ENCODED_SAMPLE);

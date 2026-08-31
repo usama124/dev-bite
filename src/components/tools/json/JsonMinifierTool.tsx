@@ -16,7 +16,7 @@ const SAMPLE = `{
   "features": ["fast", "private", "free"],
   "author": {
     "name": "DevBite",
-    "url": "https://devbite.tools"
+    "url": "https://devbite.dev"
   },
   "version": 1
 }`;

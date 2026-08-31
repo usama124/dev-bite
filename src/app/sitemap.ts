@@ -1,9 +1,10 @@
 import { MetadataRoute } from "next";
 import { getAllTools } from "@/lib/registry";
 import { CATEGORY_LIST } from "@/lib/registry/categories";
+import { SITE_CONFIG } from "@/config/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://devbite.tools";
+  const baseUrl = SITE_CONFIG.url;
   const lastModified = new Date();
 
   const staticRoutes: MetadataRoute.Sitemap = [
