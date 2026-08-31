@@ -28,7 +28,7 @@ export const SITE_CONFIG = {
     // Optional links stay hidden until a verified destination is configured.
     github: "https://github.com/usama124",
     linkedin: "https://www.linkedin.com/in/usamatahir-py",
-    website: "https://osamacodes.com",
+    website: "https://osamacodes.com/",
     buyMeACoffee: null as string | null,
   },
 } as const;
