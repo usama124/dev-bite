@@ -276,7 +276,7 @@ export default function AboutPage() {
         <section className="grid gap-4 text-sm sm:grid-cols-2">
           <article id="privacy" className="scroll-mt-24 rounded-2xl border border-border/70 bg-card/50 p-5">
             <h2 className="font-bold">Privacy</h2>
-            <p className="mt-2 leading-relaxed text-muted-foreground">Current DevBite tools process supplied content locally in your browser. No tool input is intentionally uploaded to a DevBite backend.</p>
+            <p className="mt-2 leading-relaxed text-muted-foreground">Current DevBite tools process supplied content locally in your browser. No tool input is intentionally uploaded to a DevBite backend. When enabled, Google Analytics may collect standard page-usage and device information, but tool input is never intentionally included in analytics events.</p>
           </article>
           <article id="terms" className="scroll-mt-24 rounded-2xl border border-border/70 bg-card/50 p-5">
             <h2 className="font-bold">Terms</h2>

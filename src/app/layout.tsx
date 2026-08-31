@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/shared/ThemeProvider";
 import { Navbar } from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/Footer";
 import { getAppearanceBootstrapScript } from "@/config/appearance";
+import { GOOGLE_ANALYTICS_ID } from "@/config/analytics";
 import { SITE_CONFIG } from "@/config/site";
 
 export const metadata: Metadata = {
@@ -78,6 +80,7 @@ export default function RootLayout({
           <Footer />
         </ThemeProvider>
       </body>
+      {GOOGLE_ANALYTICS_ID ? <GoogleAnalytics gaId={GOOGLE_ANALYTICS_ID} /> : null}
     </html>
   );
 }

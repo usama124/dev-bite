@@ -21,7 +21,7 @@ DevBite contains **105 fully interactive tool pages**. Phase 1 is complete with 
 
 The current verified baseline is:
 
-- 98 automated tests passing across 15 test files
+- 101 automated tests passing across 16 test files
 - Zero TypeScript errors
 - Zero ESLint warnings or errors
 - 121 static pages and metadata routes generated successfully
@@ -181,11 +181,12 @@ Detailed implementation history and the current handoff point are maintained in 
 - TypeScript 5
 - Tailwind CSS 3
 - `next-themes`
+- `@next/third-parties` for the optional official Google Analytics integration
 - Lucide React icons
 - Vitest
 - pnpm lockfile and workspace configuration
 
-No database, account, API key, or runtime environment variable is currently required.
+No database, account, or API key is required. Google Analytics is optional and remains disabled unless its public measurement ID is configured.
 
 ## Requirements
 
@@ -211,6 +212,16 @@ npm install
 ```
 
 Do not alternate package managers within the same working copy unless you intentionally want to regenerate the lockfile.
+
+## Environment Configuration
+
+Copy `.env.example` to `.env.local` and set the optional Google Analytics 4 measurement ID:
+
+```bash
+GOOGLE_ANALYTICS_ID=G-XXXXXXXXXX
+```
+
+The integration uses the official `@next/third-parties/google` component in the root layout, so it applies across the application and loads after hydration. If the variable is missing, blank, or not a `G-...` measurement ID, no Google Analytics component is rendered. A measurement ID is public browser configuration—not a secret—and no additional Analytics secret is required. Keep actual environment files outside version control; only the empty `.env.example` template is committed.
 
 ## Running Locally
 
@@ -340,7 +351,7 @@ The text-diff engine protects the browser from excessive quadratic work by limit
 
 ## Privacy and Security
 
-The implemented tools use browser APIs and local JavaScript processing. Text, SQL, JSON, uploaded CSV/JSONL files, passwords, secrets, keys, plaintext, hashes, and generated values are not intentionally sent to a DevBite backend. JWT Decoder never implies verification; JWT Validator supports only the explicitly offered HMAC algorithms. AES uses authenticated AES-GCM, RSA is limited to OAEP/PSS with SHA-256, and generated destructive SQL displays safeguards. Browser cryptography is suitable for development utilities but is not a substitute for production key management. When adding future tools, preserve these guarantees unless the product documentation and user-facing privacy messaging are explicitly updated.
+The implemented tools use browser APIs and local JavaScript processing. Text, SQL, JSON, uploaded CSV/JSONL files, passwords, secrets, keys, plaintext, hashes, and generated values are not intentionally sent to a DevBite backend or included in analytics events. When configured, Google Analytics may collect standard page-usage and device information according to Google Analytics behavior. JWT Decoder never implies verification; JWT Validator supports only the explicitly offered HMAC algorithms. AES uses authenticated AES-GCM, RSA is limited to OAEP/PSS with SHA-256, and generated destructive SQL displays safeguards. Browser cryptography is suitable for development utilities but is not a substitute for production key management. When adding future tools, preserve these guarantees unless the product documentation and user-facing privacy messaging are explicitly updated.
 
 Do not commit secrets or local environment files. `.env*.local`, private keys, build output, dependencies, and the local toolchain are excluded by `.gitignore`.
 
