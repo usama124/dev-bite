@@ -14,11 +14,117 @@ export interface JsonErrorDetail {
 
 export interface JsonFormatResult {
   success: boolean;
+  validJson: boolean;
+  formatMode: "json" | "structural" | "none";
   output: string;
   error?: JsonErrorDetail;
   lineCount: number;
   sizeBytes: number;
   originalSizeBytes: number;
+}
+
+function formatStructuredLiteral(
+  rawInput: string,
+  indentValue: string,
+  compact: boolean
+) {
+  const stack: string[] = [];
+  let output = "";
+  let quote: "'" | '"' | null = null;
+  let escaped = false;
+  let sawContainer = false;
+  let rootClosed = false;
+
+  const indentation = () => indentValue.repeat(stack.length);
+  const appendBreak = () => {
+    output = output.trimEnd();
+    if (!compact) output += `\n${indentation()}`;
+  };
+  const followedByQuotedProperty = (startIndex: number) => {
+    let index = startIndex;
+    while (/\s/.test(rawInput[index] ?? "")) index++;
+    const propertyQuote = rawInput[index];
+    if (propertyQuote !== "'" && propertyQuote !== '"') return false;
+    index++;
+    let propertyEscaped = false;
+    while (index < rawInput.length) {
+      const character = rawInput[index];
+      if (propertyEscaped) propertyEscaped = false;
+      else if (character === "\\") propertyEscaped = true;
+      else if (character === propertyQuote) break;
+      index++;
+    }
+    if (rawInput[index] !== propertyQuote) return false;
+    index++;
+    while (/\s/.test(rawInput[index] ?? "")) index++;
+    return rawInput[index] === ":";
+  };
+
+  for (let index = 0; index < rawInput.length; index++) {
+    const character = rawInput[index];
+
+    if (quote) {
+      output += character;
+      if (escaped) escaped = false;
+      else if (character === "\\") escaped = true;
+      else if (character === quote) quote = null;
+      continue;
+    }
+
+    if (character === "'" || character === '"') {
+      if (!stack.length) throw new Error("Quoted content must be inside an object or array.");
+      quote = character;
+      output += character;
+      continue;
+    }
+
+    if (/\s/.test(character)) continue;
+    if (rootClosed) throw new Error("Unexpected content after the root object or array.");
+
+    if (character === "{" || character === "[") {
+      sawContainer = true;
+      stack.push(character);
+      output = output.trimEnd() + character;
+      appendBreak();
+      continue;
+    }
+
+    if (character === "}" || character === "]") {
+      const expected = character === "}" ? "{" : "[";
+      if (stack.at(-1) !== expected) throw new Error(`Unexpected closing ${character}.`);
+      if (
+        character === "}" &&
+        stack.length === 1 &&
+        followedByQuotedProperty(index + 1) &&
+        rawInput.trimEnd().endsWith("}")
+      ) {
+        output = output.trimEnd() + ",";
+        appendBreak();
+        continue;
+      }
+      stack.pop();
+      output = output.trimEnd();
+      if (!compact && !output.endsWith(expected)) output += `\n${indentation()}`;
+      output += character;
+      if (!stack.length) rootClosed = true;
+      continue;
+    }
+
+    if (!stack.length) throw new Error("Input must start with an object or array.");
+    if (character === ",") {
+      output = output.trimEnd() + character;
+      appendBreak();
+    } else if (character === ":") {
+      output = output.trimEnd() + `:${compact ? "" : " "}`;
+    } else {
+      output += character;
+    }
+  }
+
+  if (quote) throw new Error(`Unclosed ${quote} quoted value.`);
+  if (stack.length) throw new Error("One or more objects or arrays are not closed.");
+  if (!sawContainer || !rootClosed) throw new Error("Input must contain one complete object or array.");
+  return output.trim();
 }
 
 function sortJsonKeys(obj: unknown): unknown {
@@ -102,6 +208,8 @@ export function formatJson(
   if (!rawInput || rawInput.trim() === "") {
     return {
       success: true,
+      validJson: true,
+      formatMode: "json",
       output: "",
       lineCount: 0,
       sizeBytes: 0,
@@ -134,6 +242,8 @@ export function formatJson(
 
     return {
       success: true,
+      validJson: true,
+      formatMode: "json",
       output,
       lineCount,
       sizeBytes,
@@ -141,8 +251,29 @@ export function formatJson(
     };
   } catch (err) {
     const errorDetail = parseJsonError(err as Error, rawInput);
+    let indentValue = "  ";
+    if (options.indent === "tab") indentValue = "\t";
+    else if (typeof options.indent === "number") indentValue = " ".repeat(options.indent);
+
+    try {
+      const output = formatStructuredLiteral(rawInput, indentValue, Boolean(options.compact));
+      return {
+        success: true,
+        validJson: false,
+        formatMode: "structural",
+        output,
+        error: errorDetail,
+        lineCount: output.split("\n").length,
+        sizeBytes: new TextEncoder().encode(output).length,
+        originalSizeBytes,
+      };
+    } catch {
+      // Preserve the strict JSON error when the input is not structurally safe to format.
+    }
     return {
       success: false,
+      validJson: false,
+      formatMode: "none",
       output: rawInput,
       error: errorDetail,
       lineCount: rawInput.split("\n").length,

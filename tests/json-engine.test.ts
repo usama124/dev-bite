@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { formatJson } from "../src/lib/engines/json/formatter";
+import { validateJson } from "../src/lib/engines/json/validator";
 
 describe("JSON Processing Engine — Formatter", () => {
   it("should format valid compact JSON with 2-space indentation", () => {
@@ -40,21 +41,67 @@ describe("JSON Processing Engine — Formatter", () => {
     expect(res.lineCount).toBe(1);
   });
 
-  it("should return human-friendly error details on invalid JSON", () => {
+  it("should structurally format balanced invalid JSON and retain validation details", () => {
     const invalidJson = '{\n  "name": "test",\n  "trailing": true,\n}';
     const res = formatJson(invalidJson);
 
-    expect(res.success).toBe(false);
+    expect(res.success).toBe(true);
+    expect(res.validJson).toBe(false);
+    expect(res.formatMode).toBe("structural");
+    expect(res.output).toContain('"trailing": true,');
     expect(res.error).toBeDefined();
     expect(res.error?.line).toBeGreaterThanOrEqual(1);
     expect(res.error?.hint).toContain("Trailing commas");
+    expect(validateJson(invalidJson).valid).toBe(false);
   });
 
-  it("should detect single quotes mistake", () => {
+  it("should structurally format single-quoted JSON-like input without calling it valid JSON", () => {
     const singleQuoteJson = "{ 'foo': 'bar' }";
     const res = formatJson(singleQuoteJson);
 
-    expect(res.success).toBe(false);
+    expect(res.success).toBe(true);
+    expect(res.validJson).toBe(false);
+    expect(res.formatMode).toBe("structural");
+    expect(res.output).toBe("{\n  'foo': 'bar'\n}");
     expect(res.error?.hint).toContain("double quotes");
+    expect(validateJson(singleQuoteJson).valid).toBe(false);
+  });
+
+  it("should preserve Python dictionary expressions while formatting their structure", () => {
+    const pythonLike = `{
+  'TASK_ID': 'register_and_wait',
+  'DAG_ENCRYPTION_KEY': f'{ os.getenv("DAG_ENCRYPTION_KEY") }',
+  'PYTHONPATH': '/shared/libs'}`;
+    const res = formatJson(pythonLike, { indent: 2 });
+
+    expect(res.success).toBe(true);
+    expect(res.validJson).toBe(false);
+    expect(res.output).toBe(`{
+  'TASK_ID': 'register_and_wait',
+  'DAG_ENCRYPTION_KEY': f'{ os.getenv("DAG_ENCRYPTION_KEY") }',
+  'PYTHONPATH': '/shared/libs'
+}`);
+    expect(validateJson(pythonLike).valid).toBe(false);
+  });
+
+  it("should recover a premature root boundary followed by another quoted property", () => {
+    const malformedDictionary = `{'TASK_ID':'register_and_wait','PYTHONPATH':'/shared/libs'}'DAG_ID':'{{ dag.dag_id }}','SFTP_DATA':'{"table": {"attributes": ["id"]}}'}`;
+    const res = formatJson(malformedDictionary, { indent: 2 });
+
+    expect(res.success).toBe(true);
+    expect(res.validJson).toBe(false);
+    expect(res.output).toBe(`{
+  'TASK_ID': 'register_and_wait',
+  'PYTHONPATH': '/shared/libs',
+  'DAG_ID': '{{ dag.dag_id }}',
+  'SFTP_DATA': '{"table": {"attributes": ["id"]}}'
+}`);
+    expect(validateJson(malformedDictionary).valid).toBe(false);
+  });
+
+  it("should not structurally format unbalanced JSON-like input", () => {
+    const res = formatJson("{ 'foo': ['bar' }");
+    expect(res.success).toBe(false);
+    expect(res.formatMode).toBe("none");
   });
 });

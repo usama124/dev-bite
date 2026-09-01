@@ -13,7 +13,7 @@ import { ClearButton } from "../shared/ClearButton";
 import { SampleButton } from "../shared/SampleButton";
 import { ErrorMessage } from "../shared/ErrorMessage";
 import { formatBytes } from "@/lib/utils";
-import { CheckCircle2, Minimize2, Sparkles, Wand2 } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Minimize2, Wand2 } from "lucide-react";
 
 const SAMPLE_JSON = `{
   "platform": "DevBite",
@@ -78,8 +78,8 @@ export function JsonFormatterTool() {
   return (
     <ToolWorkspace className="space-y-5">
       {/* Controls and Options Toolbar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-muted/20 border border-border/50">
-        <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border/50 bg-muted/20 p-3">
+        <div className="flex min-w-0 flex-wrap items-center gap-3">
           {/* Indent Selector */}
           <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
             <span>Indent:</span>
@@ -109,7 +109,7 @@ export function JsonFormatterTool() {
         </div>
 
         {/* Quick Format & Minify Buttons */}
-        <div className="flex items-center gap-1.5">
+        <div className="flex flex-wrap items-center gap-1.5">
           <Button
             variant={!isCompact ? "default" : "outline"}
             size="sm"
@@ -143,11 +143,21 @@ export function JsonFormatterTool() {
         />
       )}
 
+      {result?.success && !result.validJson && (
+        <div role="status" className="flex items-start gap-3 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-700 dark:text-amber-300">
+          <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
+          <div className="min-w-0">
+            <p className="font-semibold">Structurally formatted, but not valid JSON</p>
+            <p className="mt-1 break-words text-xs leading-relaxed opacity-90">Single quotes and language expressions were preserved without being executed. A recoverable premature object boundary may be normalized as a missing comma. JSON Validator will correctly reject this input. Key sorting is available only for valid JSON.</p>
+          </div>
+        </div>
+      )}
+
       {/* Editor Panes: Input & Formatted Output */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Input Column */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
+        <div className="min-w-0 space-y-2">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Input JSON
             </span>
@@ -169,24 +179,29 @@ export function JsonFormatterTool() {
         </div>
 
         {/* Output Column */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5">
+        <div className="min-w-0 space-y-2">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex min-w-0 flex-wrap items-center gap-1.5">
               <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Formatted Output
               </span>
-              {result?.success && output && (
+              {result?.success && result.validJson && output && (
                 <span className="flex items-center gap-1 text-[11px] font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">
                   <CheckCircle2 className="h-3 w-3" /> Valid JSON
                 </span>
               )}
+              {result?.success && !result.validJson && output && (
+                <span className="flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[11px] font-medium text-amber-700 dark:text-amber-300">
+                  <AlertTriangle className="h-3 w-3" /> JSON-like
+                </span>
+              )}
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex flex-wrap items-center gap-1">
               <CopyButton textToCopy={output} label="Copy JSON" />
               <DownloadButton
                 content={output}
-                filename="formatted.json"
-                mimeType="application/json"
+                filename={result?.validJson === false ? "formatted-json-like.txt" : "formatted.json"}
+                mimeType={result?.validJson === false ? "text/plain;charset=utf-8" : "application/json"}
                 label="Download"
               />
             </div>

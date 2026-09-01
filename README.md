@@ -21,7 +21,7 @@ DevBite contains **105 fully interactive tool pages**. Phase 1 is complete with 
 
 The current verified baseline is:
 
-- 101 automated tests passing across 16 test files
+- 104 automated tests passing across 16 test files
 - Zero TypeScript errors
 - Zero ESLint warnings or errors
 - 121 static pages and metadata routes generated successfully
@@ -50,7 +50,7 @@ Detailed implementation history and the current handoff point are maintained in 
 
 ### JSON tools — 14/14
 
-- JSON Formatter
+- JSON Formatter — strict JSON formatting plus a clearly labelled, non-executing structural fallback for balanced JSON-like/Python dictionary literals
 - JSON Validator
 - JSON Minifier
 - JSON Viewer
