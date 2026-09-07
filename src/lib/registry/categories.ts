@@ -85,6 +85,43 @@ export const CATEGORIES: Record<ToolCategory, CategoryMeta> = {
     badgeText: "text-cyan-600 dark:text-cyan-400",
     totalTools: 24,
   },
+  api: {
+    id: "api", name: "API Tools", slug: "api",
+    description: "Build, parse, inspect and test HTTP/API requests with explicit browser and proxy boundaries.",
+    iconName: "Brackets", accentColor: "from-fuchsia-500/20 to-violet-500/20", badgeBg: "bg-fuchsia-500/10 dark:bg-fuchsia-500/15", badgeBorder: "border-fuchsia-500/30", badgeText: "text-fuchsia-600 dark:text-fuchsia-400",
+    totalTools: 0, plannedTools: 10, published: false,
+  },
+  image: {
+    id: "image", name: "Image Tools", slug: "image",
+    description: "Resize, compress, convert, crop and inspect images locally using browser-native graphics APIs.",
+    iconName: "Image", accentColor: "from-pink-500/20 to-rose-500/20", badgeBg: "bg-pink-500/10 dark:bg-pink-500/15", badgeBorder: "border-pink-500/30", badgeText: "text-pink-600 dark:text-pink-400",
+    totalTools: 0, plannedTools: 10, published: false,
+  },
+  pdf: {
+    id: "pdf", name: "PDF Tools", slug: "pdf",
+    description: "Inspect and transform PDF documents locally without uploading document bytes to DevBite.",
+    iconName: "FileText", accentColor: "from-red-500/20 to-orange-500/20", badgeBg: "bg-red-500/10 dark:bg-red-500/15", badgeBorder: "border-red-500/30", badgeText: "text-red-600 dark:text-red-400",
+    totalTools: 0, plannedTools: 10, published: false,
+  },
+  file: {
+    id: "file", name: "File Tools", slug: "file",
+    description: "Inspect, hash, measure and convert local files without sending their contents to DevBite servers.",
+    iconName: "Files", accentColor: "from-lime-500/20 to-emerald-500/20", badgeBg: "bg-lime-500/10 dark:bg-lime-500/15", badgeBorder: "border-lime-500/30", badgeText: "text-lime-700 dark:text-lime-400",
+    totalTools: 5, plannedTools: 10, published: true,
+  },
+  networking: {
+    id: "networking", name: "Networking Tools", slug: "networking",
+    description: "Calculate and inspect addresses, subnets, DNS records and common network identifiers.",
+    iconName: "Network", accentColor: "from-sky-500/20 to-blue-500/20", badgeBg: "bg-sky-500/10 dark:bg-sky-500/15", badgeBorder: "border-sky-500/30", badgeText: "text-sky-600 dark:text-sky-400",
+    totalTools: 0, plannedTools: 10, published: false,
+  },
+  generation: {
+    id: "generation", name: "Generation Tools", slug: "generation",
+    description: "Generate representative text, identifiers, mock data, SQL and color palettes entirely in the browser.",
+    iconName: "WandSparkles", accentColor: "from-yellow-500/20 to-amber-500/20", badgeBg: "bg-yellow-500/10 dark:bg-yellow-500/15", badgeBorder: "border-yellow-500/30", badgeText: "text-yellow-700 dark:text-yellow-400",
+    totalTools: 0, plannedTools: 10, published: false,
+  },
 };
 
-export const CATEGORY_LIST: CategoryMeta[] = Object.values(CATEGORIES);
+export const ALL_CATEGORIES: CategoryMeta[] = Object.values(CATEGORIES);
+export const CATEGORY_LIST: CategoryMeta[] = ALL_CATEGORIES.filter((category) => category.published !== false);

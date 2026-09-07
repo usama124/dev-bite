@@ -48,7 +48,20 @@ try {
   if (!sql.includes("Dialect-aware scope") || !sql.includes("Process locally") || !sql.includes("SELECT u.id")) {
     throw new Error("SQL browser smoke test did not render the interactive formatter workspace.");
   }
-  process.stdout.write("Phase 2 browser smoke tests passed: Security, SQL and Data.\n");
+  const fileRoutes = [
+    ["/tools/file-hash-calculator", "Calculate hash"],
+    ["/tools/file-size-converter", "Convert size"],
+    ["/tools/file-metadata-viewer", "View metadata"],
+    ["/tools/file-to-base64", "Encode file"],
+    ["/tools/base64-to-file", "Decode to file"],
+  ];
+  for (const [path, action] of fileRoutes) {
+    const file = render(path);
+    if (!file.includes("Processed locally") || !file.includes(action)) {
+      throw new Error(`File browser smoke test did not render ${path}.`);
+    }
+  }
+  process.stdout.write("Phase 2 and Phase 3 Step 1 browser smoke tests passed: Security, SQL, Data and File.\n");
 } finally {
   server.kill("SIGTERM");
 }

@@ -43,7 +43,7 @@ export function ToolsDirectoryClient() {
           All Developer Tools ({allTools.length})
         </h1>
         <p className="text-sm sm:text-base text-muted-foreground max-w-2xl leading-relaxed">
-          Browse the complete Phase 1 and Phase 2 catalog of fast, free, client-side utilities across seven focused categories.
+          Browse the complete Phase 1 and Phase 2 catalog plus production-ready Phase 3 tools. Incomplete categories and routes remain unpublished.
         </p>
       </div>
 

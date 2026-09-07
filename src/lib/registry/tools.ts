@@ -1,5 +1,6 @@
 import { Tool } from "./types";
 import { PHASE2_TOOLS } from "./phase2-tools";
+import { PHASE3_STEP1_TOOLS } from "./phase3-tools";
 
 const PHASE1_TOOLS: Tool[] = [
   {
@@ -3316,7 +3317,7 @@ const PHASE1_TOOLS: Tool[] = [
   }
 ];
 
-export const TOOLS: Tool[] = [...PHASE1_TOOLS, ...PHASE2_TOOLS];
+export const TOOLS: Tool[] = [...PHASE1_TOOLS, ...PHASE2_TOOLS, ...PHASE3_STEP1_TOOLS];
 
 export const TOOLS_BY_ID: Record<string, Tool> = Object.fromEntries(
   TOOLS.map((tool) => [tool.id, tool])

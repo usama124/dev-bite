@@ -17,6 +17,7 @@ import {
   ShieldCheck,
   Database,
   Table2,
+  Files,
 } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { CommandSearch } from "./CommandSearch";
@@ -47,6 +48,7 @@ export function Navbar() {
     { label: "Security", href: "/tools/category/security", icon: ShieldCheck },
     { label: "SQL", href: "/tools/category/sql", icon: Database },
     { label: "Data", href: "/tools/category/data", icon: Table2 },
+    { label: "Files", href: "/tools/category/file", icon: Files },
     { label: "About", href: "/about", icon: UserRound },
   ];
 

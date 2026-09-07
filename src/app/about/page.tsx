@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { SITE_CONFIG } from "@/config/site";
+import { getAllTools } from "@/lib/registry";
 
 export const metadata: Metadata = {
   title: "About DevBite & Its Developer",
@@ -81,8 +82,8 @@ const roadmap = [
   },
   {
     phase: "Phase 3",
-    scope: "API, Image, PDF, File, Networking, Generation",
-    status: "planned",
+    scope: "In progress — local-file foundation and 5 File tools live",
+    status: "in-progress",
   },
   {
     phase: "Phase 4",
@@ -104,6 +105,7 @@ const profileLinks = [
 ].filter(hasHref);
 
 export default function AboutPage() {
+  const liveToolCount = getAllTools().length;
   const personJsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -135,7 +137,7 @@ export default function AboutPage() {
               href="/tools"
               className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground shadow-sm transition-all hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:scale-[0.98]"
             >
-              Explore all 48 tools
+              Explore all {liveToolCount} tools
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -233,7 +235,7 @@ export default function AboutPage() {
 
         <section id="roadmap" className="scroll-mt-24 rounded-3xl border border-border/60 bg-muted/10 p-6 sm:p-8">
           <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">Roadmap</h2>
-          <p className="mt-2 text-sm text-muted-foreground">Phases 1 and 2 are complete. Later phases will expand the same focused, privacy-conscious approach.</p>
+          <p className="mt-2 text-sm text-muted-foreground">Phases 1 and 2 are complete. Phase 3 is underway with the same focused, privacy-conscious approach.</p>
           <ol className="mt-6 grid gap-3 md:grid-cols-2">
             {roadmap.map((item) => {
               const complete = item.status === "complete";

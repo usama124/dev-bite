@@ -1,13 +1,24 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
-import { CATEGORY_LIST, TOOLS } from "../src/lib/registry";
+import { ALL_CATEGORIES, CATEGORY_LIST, TOOLS, getCategoryBySlug } from "../src/lib/registry";
 
 describe("tool registry integrity", () => {
-  it("contains 48 Phase 1 and 57 Phase 2 tools with unique addresses", () => {
-    expect(TOOLS).toHaveLength(105);
-    expect(new Set(TOOLS.map((tool) => tool.id)).size).toBe(105);
-    expect(new Set(TOOLS.map((tool) => tool.slug)).size).toBe(105);
+  it("contains 48 Phase 1, 57 Phase 2 and 5 published Phase 3 tools with unique addresses", () => {
+    expect(TOOLS).toHaveLength(110);
+    expect(new Set(TOOLS.map((tool) => tool.id)).size).toBe(110);
+    expect(new Set(TOOLS.map((tool) => tool.slug)).size).toBe(110);
     TOOLS.forEach((tool) => expect(tool.slug).toMatch(/^[a-z0-9]+(?:-[a-z0-9]+)*$/));
+  });
+
+  it("configures all Phase 3 categories without publishing empty ones", () => {
+    expect(ALL_CATEGORIES.filter((category) => ["api", "image", "pdf", "file", "networking", "generation"].includes(category.id))).toHaveLength(6);
+    expect(CATEGORY_LIST.map((category) => category.id)).toContain("file");
+    expect(CATEGORY_LIST.map((category) => category.id)).not.toContain("api");
+    expect(CATEGORY_LIST.map((category) => category.id)).not.toContain("image");
+    expect(TOOLS.filter((tool) => tool.category === "file")).toHaveLength(5);
+    expect(getCategoryBySlug("file")?.published).toBe(true);
+    expect(getCategoryBySlug("api")).toBeUndefined();
+    expect(getCategoryBySlug("generation")).toBeUndefined();
   });
 
   it("matches category totals", () => {

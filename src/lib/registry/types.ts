@@ -5,7 +5,13 @@ export type ToolCategory =
   | "encoding"
   | "security"
   | "sql"
-  | "data";
+  | "data"
+  | "api"
+  | "image"
+  | "pdf"
+  | "file"
+  | "networking"
+  | "generation";
 
 export type ToolPriority = "P0" | "P1" | "P2";
 
@@ -46,6 +52,8 @@ export interface Tool {
   features?: string[];
   howToUse?: string[];
   status?: "active" | "coming_soon";
+  phase?: 1 | 2 | 3;
+  execution?: "client" | "backend" | "hybrid";
 }
 
 export interface CategoryMeta {
@@ -59,4 +67,6 @@ export interface CategoryMeta {
   badgeBorder: string;
   badgeText: string;
   totalTools: number;
+  plannedTools?: number;
+  published?: boolean;
 }

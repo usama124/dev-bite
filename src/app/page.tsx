@@ -18,6 +18,12 @@ import {
   ShieldCheck as SecurityIcon,
   Database,
   Table2,
+  Brackets,
+  Image as ImageIcon,
+  FileText,
+  Files,
+  Network,
+  WandSparkles,
 } from "lucide-react";
 import { CATEGORY_LIST } from "@/lib/registry/categories";
 import { getPopularTools, getAllTools } from "@/lib/registry";
@@ -39,6 +45,12 @@ export default function HomePage() {
     security: SecurityIcon,
     sql: Database,
     data: Table2,
+    api: Brackets,
+    image: ImageIcon,
+    pdf: FileText,
+    file: Files,
+    networking: Network,
+    generation: WandSparkles,
   };
 
   const featureCards = [

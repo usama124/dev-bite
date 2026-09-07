@@ -208,6 +208,13 @@ const DataTransformTool = dynamic(() => import("./data/DataTransformTool").then(
 // Phase 2 SQL tools
 const SqlTool = dynamic(() => import("./sql/SqlTool").then((m) => m.SqlTool), { ssr: false });
 
+// Phase 3 Step 1 File tools
+const FileHashCalculatorTool = dynamic(() => import("./file/FileTools").then((m) => m.FileHashCalculatorTool), { ssr: false });
+const FileSizeConverterTool = dynamic(() => import("./file/FileTools").then((m) => m.FileSizeConverterTool), { ssr: false });
+const FileMetadataViewerTool = dynamic(() => import("./file/FileTools").then((m) => m.FileMetadataViewerTool), { ssr: false });
+const FileToBase64Tool = dynamic(() => import("./file/FileTools").then((m) => m.FileToBase64Tool), { ssr: false });
+const Base64ToFileTool = dynamic(() => import("./file/FileTools").then((m) => m.Base64ToFileTool), { ssr: false });
+
 interface ToolRendererProps {
   tool: Tool;
 }
@@ -406,6 +413,13 @@ export function ToolRenderer({ tool }: ToolRendererProps) {
     case "delimited-text-converter": return <DataTransformTool mode="delimiter" />;
     case "data-cleaner": return <DataTransformTool mode="clean" />;
     case "column-row-counter": return <DataTransformTool mode="count" />;
+
+    // Phase 3 Step 1 File (5 tools)
+    case "file-hash-calculator": return <FileHashCalculatorTool />;
+    case "file-size-converter": return <FileSizeConverterTool />;
+    case "file-metadata-viewer": return <FileMetadataViewerTool />;
+    case "file-to-base64": return <FileToBase64Tool />;
+    case "base64-to-file": return <Base64ToFileTool />;
 
     // Registry fallback for future additions
     default:

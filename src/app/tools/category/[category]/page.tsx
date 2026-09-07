@@ -9,7 +9,7 @@ import {
 } from "@/lib/registry";
 import { ToolCard } from "@/components/shared/ToolCard";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
-import { Type, Braces, Code2, Binary, ArrowRight, ShieldCheck, Database, Table2 } from "lucide-react";
+import { Type, Braces, Code2, Binary, ArrowRight, ShieldCheck, Database, Table2, Image as ImageIcon, FileText, Files, Network, WandSparkles } from "lucide-react";
 import { SITE_CONFIG } from "@/config/site";
 
 interface CategoryPageProps {
@@ -71,6 +71,12 @@ export default function CategoryPage({ params }: CategoryPageProps) {
     security: ShieldCheck,
     sql: Database,
     data: Table2,
+    api: Braces,
+    image: ImageIcon,
+    pdf: FileText,
+    file: Files,
+    networking: Network,
+    generation: WandSparkles,
   };
 
   const Icon = categoryIcons[categoryMeta.id];

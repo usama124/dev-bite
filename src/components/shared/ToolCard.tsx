@@ -17,6 +17,12 @@ export function ToolCard({ tool }: ToolCardProps) {
     security: "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20",
     sql: "bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-500/20",
     data: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20",
+    api: "bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400 border-fuchsia-500/20",
+    image: "bg-pink-500/10 text-pink-600 dark:text-pink-400 border-pink-500/20",
+    pdf: "bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20",
+    file: "bg-lime-500/10 text-lime-700 dark:text-lime-400 border-lime-500/20",
+    networking: "bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20",
+    generation: "bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-500/20",
   };
 
   return (

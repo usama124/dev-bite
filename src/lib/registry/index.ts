@@ -86,5 +86,6 @@ export function getAllCategories(): CategoryMeta[] {
 }
 
 export function getCategoryBySlug(slug: string): CategoryMeta | undefined {
-  return CATEGORIES[slug as ToolCategory];
+  const category = CATEGORIES[slug as ToolCategory];
+  return category?.published === false ? undefined : category;
 }

@@ -2,7 +2,7 @@
 
 DevBite is a privacy-first collection of fast, focused utilities for developers, writers, and data work. Every live tool runs entirely in the browser: input is processed locally and is not uploaded to an application server.
 
-DevBite contains **105 fully interactive tool pages**. Phase 1 is complete with 48 Text, JSON, Developer, and Encoding tools, and Phase 2 is complete with 57 Security, SQL, and CSV/Data tools.
+DevBite contains **110 fully interactive tool pages**. Phase 1 is complete with 48 Text, JSON, Developer, and Encoding tools; Phase 2 is complete with 57 Security, SQL, and CSV/Data tools; and Phase 3 is underway with its shared local-file platform and first five File tools live.
 
 > **Source availability:** This repository is proprietary. Viewing the source does not grant permission to copy, modify, distribute, deploy, or commercially use it. See [LICENSE](LICENSE).
 
@@ -17,19 +17,25 @@ DevBite contains **105 fully interactive tool pages**. Phase 1 is complete with 
 | Security | 18 | 18 | Phase 2 complete |
 | SQL | 15 | 15 | Phase 2 complete |
 | CSV & Data | 24 | 24 | Phase 2 complete |
-| **Total** | **105** | **105** | **Phases 1 and 2 complete** |
+| File | 5 | 10 | Phase 3 Step 1 complete |
+| API | 0 | 10 | Hidden until complete |
+| Image | 0 | 10 | Hidden until complete |
+| PDF | 0 | 10 | Hidden until complete |
+| Networking | 0 | 10 | Hidden until complete |
+| Generation | 0 | 10 | Hidden until complete |
+| **Total** | **110** | **165** | **Phases 1–2 complete; Phase 3 underway** |
 
 The current verified baseline is:
 
-- 104 automated tests passing across 16 test files
+- 113 automated tests passing across 17 test files
 - Zero TypeScript errors
 - Zero ESLint warnings or errors
-- 121 static pages and metadata routes generated successfully
+- 127 static pages and metadata routes generated successfully
 - Responsive system, light, and dark modes
 - Three selectable color palettes, font families, and text scales with local persistence
 - SEO metadata, canonical URLs, sitemap, and robots.txt
 
-Detailed implementation history and the current handoff point are maintained in [walkthrough.md](walkthrough.md). Product requirements are in [docs/Phase_1_Product_Specification_48_Tools.docx](docs/Phase_1_Product_Specification_48_Tools.docx) and [docs/Phase_2_Product_Specification.docx](docs/Phase_2_Product_Specification.docx).
+Detailed implementation history and the current handoff point are maintained in [walkthrough.md](walkthrough.md). Product requirements are in [docs/Phase_1_Product_Specification_48_Tools.docx](docs/Phase_1_Product_Specification_48_Tools.docx), [docs/Phase_2_Product_Specification.docx](docs/Phase_2_Product_Specification.docx), and [docs/Phase_3_Product_Specification.docx](docs/Phase_3_Product_Specification.docx).
 
 ## Live Tools
 
@@ -159,6 +165,16 @@ Detailed implementation history and the current handoff point are maintained in 
 - SQL JOIN Generator
 - SQL Query Explainer (local deterministic structural explanation; no AI/backend or query execution)
 
+### File tools — 5/10 (Phase 3 Step 1)
+
+- File Hash Calculator (MD5 and SHA family)
+- File Size Converter (decimal and binary units)
+- File Metadata Viewer
+- File → Base64
+- Base64 → File
+
+The remaining File tools and the other Phase 3 categories are not exposed in navigation or public routes until their production milestones are complete.
+
 ## Product Features
 
 - **Private by design:** live transformations run client-side in the browser.
@@ -167,6 +183,7 @@ Detailed implementation history and the current handoff point are maintained in 
 - **Immediate feedback:** most outputs and statistics update as the input or options change.
 - **Responsive interface:** workspaces adapt from mobile layouts to dual-pane desktop layouts; tabular data stays usable through contained horizontal scrolling.
 - **Shared Phase 2 foundations:** Security uses browser cryptography and local analysis; CSV, TSV, JSON, and JSONL tools share a normalized immutable table model with progressive parsing; SQL tools share a tokenizer, formatter, scoped structural validator, literal/identifier safety helpers, and safeguarded generators.
+- **Shared Phase 3 local-file foundation:** `LocalFileWorkspace` centralizes drag/drop, file picking, validation, details, previews, progress, errors, reset, downloads, and the local-processing notice. Shared file engines handle streaming reads, Base64, hashing, metadata, safe filenames, Blobs, and object-URL cleanup without duplicating Phase 1/2 processors.
 - **Large-data safeguards:** local delimited files are streamed, long parses yield between chunks with visible progress, grid rendering is paginated, and configurable 20 MB/20-million-character caps protect the browser.
 - **Data workflow depth:** delimiter tools accept comma, tab, semicolon, pipe, or one-character custom delimiters; CSV merge accepts multiple local files; CSV split supports rows per file or an exact file count.
 - **Destructive SQL safeguards:** UPDATE and DELETE generators require structured WHERE conditions; validation separately warns when pasted UPDATE/DELETE statements are unrestricted.
@@ -182,6 +199,7 @@ Detailed implementation history and the current handoff point are maintained in 
 - Tailwind CSS 3
 - `next-themes`
 - `@next/third-parties` for the optional official Google Analytics integration
+- Browser File, Blob, Streams, and Object URL APIs
 - Lucide React icons
 - Vitest
 - pnpm lockfile and workspace configuration
@@ -255,7 +273,7 @@ If you are using the repository-local toolchain from the original workspace:
 | `pnpm typecheck` | Run TypeScript without emitting files |
 | `pnpm test` | Run all Vitest tests once |
 | `pnpm test:watch` | Run Vitest in watch mode |
-| `pnpm test:browser` | Render-smoke and interact with representative Security, SQL, and Data workspaces against a production build (requires Chrome) |
+| `pnpm test:browser` | Render-smoke and interact with representative Security, SQL, Data, and File workspaces against a production build (requires Chrome) |
 | `pnpm lint` | Run Next.js linting after ESLint has been configured |
 
 Equivalent `npm run <script>` commands can be used when dependencies were installed with npm.
@@ -277,7 +295,7 @@ By default, the production server listens on port 3000. Standard Next.js environ
 | `/about` | Project story, developer profile, principles, roadmap, and support section |
 | `/tools` | Searchable directory of all live tools |
 | `/tools/[slug]` | Dedicated product and tool workspace page |
-| `/tools/category/[category]` | Text, JSON, Developer, Encoding, Security, SQL, or Data category page |
+| `/tools/category/[category]` | Category page for each published tool family, currently including File |
 | `/sitemap.xml` | Generated sitemap for public pages |
 | `/robots.txt` | Search crawler directives |
 
@@ -293,9 +311,9 @@ src/
 ├── config/                      # Appearance, site/profile links, and browser-safety limits
 └── lib/
     ├── engines/                 # Pure processing logic grouped by category
-    └── registry/                # Phase 1 and Phase 2 metadata/category registry
+    └── registry/                # Phase 1–3 metadata/category registry
 tests/                           # Vitest unit tests plus production browser render and interaction tests
-docs/                            # Phase 1 and Phase 2 product specifications
+docs/                            # Phase 1, Phase 2, and Phase 3 product specifications
 walkthrough.md                   # Build history, verification, and handoff state
 ```
 
@@ -345,13 +363,13 @@ pnpm build
 pnpm test:browser
 ```
 
-Run `test:browser` after `build`; its isolated render and interaction suites start production servers on ports 3217 and 3219 and require Google Chrome at `/usr/bin/google-chrome` or a custom executable supplied through `CHROME_PATH`. The interaction suite operates HMAC, guarded UPDATE, custom-delimiter, and exact-file-count splitter workflows and checks representative pages at a 390px mobile viewport. The committed ESLint configuration extends Next.js Core Web Vitals, so linting runs unattended in local development and CI.
+Run `test:browser` after `build`; its isolated render and interaction suites start production servers on ports 3217 and 3219 and require Google Chrome at `/usr/bin/google-chrome` or a custom executable supplied through `CHROME_PATH`. The interaction suite operates HMAC, guarded UPDATE, custom-delimiter, exact-file-count splitter, local-file selection/replacement, hashing, download cleanup, reset, and Base64 decoding workflows. It also checks representative pages at a 390px mobile viewport and verifies file processing makes no fetch/XHR request. The committed ESLint configuration extends Next.js Core Web Vitals, so linting runs unattended in local development and CI.
 
 The text-diff engine protects the browser from excessive quadratic work by limiting a comparison to 2,000,000 line-pair cells. The threshold is centralized in `src/config/limits.ts`; oversized input returns an actionable message asking the user to compare smaller sections.
 
 ## Privacy and Security
 
-The implemented tools use browser APIs and local JavaScript processing. Text, SQL, JSON, uploaded CSV/JSONL files, passwords, secrets, keys, plaintext, hashes, and generated values are not intentionally sent to a DevBite backend or included in analytics events. When configured, Google Analytics may collect standard page-usage and device information according to Google Analytics behavior. JWT Decoder never implies verification; JWT Validator supports only the explicitly offered HMAC algorithms. AES uses authenticated AES-GCM, RSA is limited to OAEP/PSS with SHA-256, and generated destructive SQL displays safeguards. Browser cryptography is suitable for development utilities but is not a substitute for production key management. When adding future tools, preserve these guarantees unless the product documentation and user-facing privacy messaging are explicitly updated.
+The implemented tools use browser APIs and local JavaScript processing. Text, SQL, JSON, uploaded files, passwords, secrets, keys, plaintext, hashes, and generated values are not intentionally sent to a DevBite backend or included in analytics events. File tools enforce centralized browser-safety limits, warn about large operations, and revoke temporary download/preview URLs. When configured, Google Analytics may collect standard page-usage and device information according to Google Analytics behavior. JWT Decoder never implies verification; JWT Validator supports only the explicitly offered HMAC algorithms. AES uses authenticated AES-GCM, RSA is limited to OAEP/PSS with SHA-256, and generated destructive SQL displays safeguards. Browser cryptography is suitable for development utilities but is not a substitute for production key management. When adding future tools, preserve these guarantees unless the product documentation and user-facing privacy messaging are explicitly updated.
 
 Do not commit secrets or local environment files. `.env*.local`, private keys, build output, dependencies, and the local toolchain are excluded by `.gitignore`.
 
@@ -367,10 +385,11 @@ Do not commit secrets or local environment files. `.env*.local`, private keys, b
 - **Phase 2 milestone 1:** Security/SQL/Data engine foundations, registry/navigation/SEO expansion, 5 Security tools, and 8 CSV/Data tools — complete
 - **Phase 2 specification and production acceptance:** all 18 Security, 15 SQL, and 24 CSV/Data workspaces; binary/text checksums; scoped SQL validation and destructive-query safeguards; custom delimiters; multi-file merge; both splitter modes; progressive large-data handling; unit tests; production browser interactions; and responsive verification — complete
 - **Query Explainer:** implemented as a limited local deterministic structural explainer; it does not use AI, execute SQL, or inspect a database query plan
-- **Phase 3:** API, Image, PDF, File, Networking, and Generation tools — planned
+- **Phase 3 Step 1:** shared local-file platform, File category infrastructure, and File Hash, File Size, File Metadata, File → Base64, and Base64 → File tools — complete
+- **Phase 3 Steps 2–10:** remaining File, Image, PDF, backend/DNS, Networking, API, Generation, SEO, analytics-event, and final QA milestones — planned
 - **Phase 4:** Data Engineering, SEO, QR/Barcode, and Advanced tools — planned
 
-The Phase 1 and Phase 2 specification documents remain the sources of truth for their respective tool scope and acceptance criteria.
+The Phase 1, Phase 2, and Phase 3 specification documents remain the sources of truth for their respective tool scope and acceptance criteria.
 
 ## License
 

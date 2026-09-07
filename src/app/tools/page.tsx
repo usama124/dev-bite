@@ -3,9 +3,9 @@ import { ToolsDirectoryClient } from "@/components/tools/ToolsDirectoryClient";
 import { SITE_CONFIG } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "All Developer Tools (48 Launch Utilities)",
+  title: "All Developer Tools",
   description:
-    "Explore 48 free, fast, and privacy-friendly online developer tools. Text utilities, JSON formatters, UUID generators, Base64 converters, and more.",
+    "Explore DevBite's free, fast, and privacy-friendly online developer tools for text, JSON, encoding, security, SQL, data and local files.",
   alternates: {
     canonical: `${SITE_CONFIG.url}/tools`,
   },
