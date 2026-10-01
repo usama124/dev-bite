@@ -101,7 +101,7 @@ function hasHref<T extends { href: string | null }>(
 const profileLinks = [
   { label: "GitHub", href: SITE_CONFIG.links.github, icon: Github },
   { label: "LinkedIn", href: SITE_CONFIG.links.linkedin, icon: Linkedin },
-  { label: "Personal website", href: SITE_CONFIG.links.website, icon: ExternalLink },
+  { label: "Portfolio", href: SITE_CONFIG.links.website, icon: ExternalLink },
 ].filter(hasHref);
 
 export default function AboutPage() {
@@ -182,9 +182,9 @@ export default function AboutPage() {
             </div>
             <p className="mt-5 text-sm leading-relaxed text-muted-foreground sm:text-base">
               {SITE_CONFIG.developer.introduction}
-              <br />You can also see my work on GitHub, connect with me on LinkedIn, or visit my personal website for more projects and information.
+              <br />You can also see my work on GitHub, connect with me on LinkedIn, or visit my portfolio for more projects and information.
               <a href={SITE_CONFIG.links.website} target="_blank" rel="noreferrer" className="ml-1 inline-flex items-center gap-1 font-medium text-primary hover:underline">
-                Visit my website
+                Visit my portfolio
                 <ExternalLink className="h-3 w-3" />
               </a>
             </p>
